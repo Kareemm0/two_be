@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToLogin() {
-    context.pushReplacement(Routes.login);
+    context.pushReplacement(Routes.onBoarding);
   }
 
   @override
