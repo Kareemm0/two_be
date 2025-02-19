@@ -28,7 +28,7 @@ class CustomVisibleSkipButton extends StatelessWidget {
           context.pushReplacement(Routes.login);
         },
         child: Text(
-          "Skip",
+          "تخطي",
           style: AppTextStyle.style16,
         ),
       ),

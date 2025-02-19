@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:two_be/Features/onBoarding/presentation/widgets/custom_page_view_body.dart';
 
-import '../../../../core/utils/app_sizes.dart';
-import '../../../../core/utils/app_text_style.dart';
+import '../../../../core/routes/routes.dart';
 import '../../data/on_baording_model.dart';
 import '../widgets/custom_skip_button.dart';
 
@@ -28,7 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+      padding: const EdgeInsets.only(top: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -38,28 +39,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Expanded(
             child: PageView.builder(
               controller: pageController,
-              itemBuilder: (context, index) => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    onBoarding[index].title,
-                    style: AppTextStyle.style16,
-                  ),
-                  Image.asset(onBoarding[index].image),
-                  Text(
-                    onBoarding[index].description,
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.style16,
-                  ),
-                ],
+              itemBuilder: (context, index) => CustomPageViewBody(
+                image: onBoarding[index].image,
+                title: onBoarding[index].title,
+                description: onBoarding[index].description,
+                text: index == onBoarding.length - 1 ? "انهاء" : "التالي",
+                onPressed: () async {
+                  if (pageController.hasClients) {
+                    if (pageController.page!.toInt() == onBoarding.length - 1) {
+                      //await OnboardingService().markOnboardingAsShown();
+                      context.pushReplacement(Routes.login);
+                    } else {
+                      pageController.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  }
+                },
               ),
               itemCount: onBoarding.length,
             ),
           ),
-          height(64),
-          // CustomButtonsRow(
-          //   pageController: pageController,
-          // ),
         ],
       ),
     ));

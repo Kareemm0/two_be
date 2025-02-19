@@ -26,6 +26,6 @@ List<OnBaordingModel> onBoarding = [
   OnBaordingModel(
     AppImages.onbarding3,
     'تسوق سهل وسعيد',
-    'ابدأ بالتسوق الآن واستمتع بعالم من الراحة!"',
+    'ابدأ بالتسوق الآن واستمتع بعالم من \nالراحة"',
   ),
 ];
