@@ -4,6 +4,7 @@ import 'package:two_be/core/utils/app_sizes.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_app_text.dart';
+import 'custom_dot_slider.dart';
 
 class CustomPageViewBody extends StatelessWidget {
   final String image;
@@ -11,13 +12,17 @@ class CustomPageViewBody extends StatelessWidget {
   final String description;
   final void Function()? onPressed;
   final String text;
+  final int pageindex;
+  final int listLength;
   const CustomPageViewBody(
       {super.key,
       required this.image,
       required this.title,
       required this.description,
       this.onPressed,
-      required this.text});
+      required this.text,
+      required this.pageindex,
+      required this.listLength});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +30,21 @@ class CustomPageViewBody extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(child: Image.asset(image)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ...List.generate(
+              listLength,
+              (index) => Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: CustomDotSlider(
+                  isActive: index == pageindex,
+                ),
+              ),
+            ),
+          ],
+        ),
+        height(34),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 0.5),
           height: 250,

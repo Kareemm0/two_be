@@ -28,41 +28,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.only(top: 40),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          CustomVisibleSkipButton(
-            pageController: pageController,
-          ),
-          Expanded(
-            child: PageView.builder(
-              controller: pageController,
-              itemBuilder: (context, index) => CustomPageViewBody(
-                image: onBoarding[index].image,
-                title: onBoarding[index].title,
-                description: onBoarding[index].description,
-                text: index == onBoarding.length - 1 ? "انهاء" : "التالي",
-                onPressed: () async {
-                  if (pageController.hasClients) {
-                    if (pageController.page!.toInt() == onBoarding.length - 1) {
-                      //await OnboardingService().markOnboardingAsShown();
-                      context.pushReplacement(Routes.login);
-                    } else {
-                      pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  }
-                },
-              ),
-              itemCount: onBoarding.length,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomVisibleSkipButton(
+              pageController: pageController,
             ),
-          ),
-        ],
+            Expanded(
+              child: PageView.builder(
+                controller: pageController,
+                itemBuilder: (context, index) => CustomPageViewBody(
+                  listLength: onBoarding.length,
+                  pageindex: index,
+                  image: onBoarding[index].image,
+                  title: onBoarding[index].title,
+                  description: onBoarding[index].description,
+                  text: index == onBoarding.length - 1 ? "انهاء" : "التالي",
+                  onPressed: () async {
+                    if (pageController.hasClients) {
+                      if (pageController.page!.toInt() ==
+                          onBoarding.length - 1) {
+                        //await OnboardingService().markOnboardingAsShown();
+                        context.pushReplacement(Routes.login);
+                      } else {
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
+                        );
+                      }
+                    }
+                  },
+                ),
+                itemCount: onBoarding.length,
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/Auth/presentation/view/login_screen.dart';
+import 'package:two_be/Features/Auth/presentation/view/register_screen.dart';
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/core/routes/routes.dart';
-
 import '../../Features/splash/presentation/view/splash_screen.dart';
 
 final appRouter = GoRouter(routes: [
@@ -17,5 +17,9 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: Routes.onBoarding,
     builder: (ctx, state) => OnboardingScreen(),
+  ),
+  GoRoute(
+    path: Routes.register,
+    builder: (ctx, state) => RegisterScreen(),
   )
 ]);
