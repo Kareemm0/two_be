@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   Expanded(child: Image.asset(AppImages.logo)),
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                     decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.only(
