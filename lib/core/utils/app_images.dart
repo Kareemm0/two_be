@@ -8,6 +8,7 @@ class AppImages {
   static const String onbarding3 = '${_path}onbarding3.png';
   static const String slider = '${_path}slider.png';
   static const String watch = '${_path}watch.png';
+  static const String shoos = '${_path}shoo.png';
 
   //! Vectors Images
 
@@ -18,4 +19,6 @@ class AppImages {
   static const String profile = '${_vectos}profile.svg';
   static const String notification = '${_vectos}notification.svg';
   static const String heart = '${_vectos}heart.svg';
+  static const String arrow = '${_vectos}arrow.svg';
+  static const String add = '${_vectos}add.svg';
 }

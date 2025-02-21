@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
+import '../../../../core/widgets/custom_icon_container.dart';
 
 class CustomRowHeaderAndNotification extends StatelessWidget {
   const CustomRowHeaderAndNotification({super.key});
@@ -34,12 +32,9 @@ class CustomRowHeaderAndNotification extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          padding: EdgeInsets.all(16),
-          decoration:
-              BoxDecoration(color: AppColors.geryF, shape: BoxShape.circle),
-          child: SvgPicture.asset(AppImages.notification),
-        )
+        CustomIconContainer(
+          assetName: AppImages.notification,
+        ),
       ],
     );
   }

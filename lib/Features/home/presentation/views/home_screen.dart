@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:two_be/Features/home/presentation/widgets/custom_image_container.dart';
 import 'package:two_be/Features/home/presentation/widgets/custom_row_text_category.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../widgets/custom_category_list_view.dart';
@@ -40,8 +42,11 @@ class HomeScreen extends StatelessWidget {
                     controller: cubit.pageController,
                     itemCount: cubit.imageUrls.length,
                     itemBuilder: (context, index) {
-                      return CustomImageContainer(
-                        image: cubit.imageUrls[index],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: CustomImageContainer(
+                          image: cubit.imageUrls[index],
+                        ),
                       );
                     },
                   ),
@@ -59,7 +64,12 @@ class HomeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           height(16),
-                          CustomRowTextCategory(text: "الاقسام"),
+                          CustomRowTextCategory(
+                            text: "الاقسام",
+                            onTap: () {
+                              context.push(Routes.category);
+                            },
+                          ),
                           SizedBox(
                             height: 150,
                             child: ListView.separated(
