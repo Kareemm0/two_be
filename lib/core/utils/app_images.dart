@@ -30,4 +30,11 @@ class AppImages {
   static const String pay = '${_vectos}pay.svg';
   static const String cache = '${_vectos}cache.svg';
   static const String cridte = '${_vectos}cridte.svg';
+  static const String about = '${_vectos}about.svg';
+  static const String center = '${_vectos}center.svg';
+  static const String contact = '${_vectos}contact.svg';
+  static const String help = '${_vectos}help.svg';
+  static const String langu = '${_vectos}langu.svg';
+  static const String privacy = '${_vectos}privacy.svg';
+  static const String setting = '${_vectos}settings.svg';
 }
