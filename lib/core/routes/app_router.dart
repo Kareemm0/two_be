@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/Auth/presentation/view/login_screen.dart';
 import 'package:two_be/Features/Auth/presentation/view/register_screen.dart';
 import 'package:two_be/Features/bottom_nav_bar/presentation/view/bottom_nav_bar_screen.dart';
+import 'package:two_be/Features/cart/presentation/views/order_summary_screen.dart';
 import 'package:two_be/Features/categories/presentation/views/categories_screen.dart';
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
@@ -41,5 +42,9 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: Routes.productDetails,
     builder: (ctx, state) => ProductsDetailsScreen(),
+  ),
+  GoRoute(
+    path: Routes.orderSummary,
+    builder: (ctx, state) => OrderSummaryScreen(),
   )
 ]);

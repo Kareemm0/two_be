@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/categories/presentation/widget/custom_header_and_icon.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/widgets/custom_app_text.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../widget/custom_delete_and_plus_and_minus.dart';
+import '../widget/custom_order_sammery_details.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -53,65 +56,13 @@ class CartScreen extends StatelessWidget {
                 separatorBuilder: (context, index) => height(16),
                 itemCount: 3),
           ),
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.geryF,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "ملخص الطلب",
-                  style: AppTextStyle.style16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("القطع", style: AppTextStyle.style14),
-                    Text("3", style: AppTextStyle.style14),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("المجموع قبل الخصم", style: AppTextStyle.style14),
-                    Text("120\$", style: AppTextStyle.style14),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("الخصم", style: AppTextStyle.style14),
-                    Text("4\$", style: AppTextStyle.style14),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("مصاريف الشحن", style: AppTextStyle.style14),
-                    Text("2\$", style: AppTextStyle.style14),
-                  ],
-                ),
-                Divider(
-                  color: AppColors.primaryColor,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("المجموع", style: AppTextStyle.style14),
-                    Text("430\$", style: AppTextStyle.style14),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          CustomOrderSammeryDetails(),
           height(8),
           CustomAppButton(
             text: "تأكيد الطلب",
-            onPressed: () {},
+            onPressed: () {
+              context.push(Routes.orderSummary);
+            },
             radius: 30,
           ),
         ],

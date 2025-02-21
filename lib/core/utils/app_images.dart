@@ -25,4 +25,9 @@ class AppImages {
   static const String delete = '${_vectos}delete.svg';
   static const String minus = '${_vectos}minus.svg';
   static const String plus = '${_vectos}plus.svg';
+  static const String location = '${_vectos}location.svg';
+  static const String clock = '${_vectos}clock.svg';
+  static const String pay = '${_vectos}pay.svg';
+  static const String cache = '${_vectos}cache.svg';
+  static const String cridte = '${_vectos}cridte.svg';
 }
