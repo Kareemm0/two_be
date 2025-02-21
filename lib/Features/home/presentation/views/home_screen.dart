@@ -84,7 +84,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           height(16),
-                          CustomRowTextCategory(text: "الاكثر مبيعا"),
+                          CustomRowTextCategory(
+                            text: "الاكثر مبيعا",
+                            onTap: () => context.push(Routes.product),
+                          ),
                           SizedBox(
                             height: 150,
                             child: ListView.separated(

@@ -7,7 +7,8 @@ import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_icon_container.dart';
 
 class CustomHeaderAndIcon extends StatelessWidget {
-  const CustomHeaderAndIcon({super.key});
+  final String title;
+  const CustomHeaderAndIcon({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CustomHeaderAndIcon extends StatelessWidget {
       children: [
         width(0),
         Text(
-          "الاقسام",
+          title,
           style: AppTextStyle.style20.copyWith(
             color: AppColors.blackColor,
           ),
