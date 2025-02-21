@@ -12,11 +12,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     AppImages.setting,
     AppImages.contact,
     AppImages.help,
+    AppImages.privacy,
+    AppImages.center,
+    AppImages.about,
   ];
   final List<String> profile = [
     "الملف الشخصي",
     "الاعدادات",
     "تواصل معنا",
     "المساعدة",
+    "سياسة الخصوصية",
+    "مركز المساعدة",
+    "عن التطبيق",
   ];
 }

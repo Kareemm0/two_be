@@ -35,6 +35,6 @@ class AppImages {
   static const String contact = '${_vectos}contact.svg';
   static const String help = '${_vectos}help.svg';
   static const String langu = '${_vectos}langu.svg';
-  static const String privacy = '${_vectos}privacy.svg';
+  static const String privacy = '${_vectos}privcy.svg';
   static const String setting = '${_vectos}settings.svg';
 }

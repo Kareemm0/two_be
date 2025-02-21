@@ -20,48 +20,51 @@ class ProfileScreen extends StatelessWidget {
           return Scaffold(
               body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 16,
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage(AppImages.watch),
-                ),
-                Text(
-                  "كريم ",
-                  style: AppTextStyle.style16,
-                ),
-                ...List.generate(
-                  cubit.profileIcon.length,
-                  (index) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.geryF,
-                    ),
-                    child: ListTile(
-                      leading: SvgPicture.asset(
-                        cubit.profileIcon[index],
-                        colorFilter: ColorFilter.mode(
-                          AppColors.primaryColor,
-                          BlendMode.srcIn,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 16,
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(AppImages.watch),
+                  ),
+                  Text(
+                    "كريم ",
+                    style: AppTextStyle.style16,
+                  ),
+                  ...List.generate(
+                    cubit.profileIcon.length,
+                    (index) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.geryF,
+                      ),
+                      child: ListTile(
+                        leading: SvgPicture.asset(
+                          cubit.profileIcon[index],
+                          colorFilter: ColorFilter.mode(
+                            AppColors.primaryColor,
+                            BlendMode.srcIn,
+                          ),
                         ),
+                        title: Text(
+                          cubit.profile[index],
+                          style: AppTextStyle.style16,
+                        ),
+                        onTap: () {},
+                        trailing: Icon(Icons.arrow_forward_ios),
                       ),
-                      title: Text(
-                        cubit.profile[index],
-                        style: AppTextStyle.style16,
-                      ),
-                      onTap: () {},
-                      trailing: Icon(Icons.arrow_forward_ios),
                     ),
                   ),
-                ),
-                height(30),
-                Text(
-                  "تسجيل الخروج",
-                  style: AppTextStyle.style20.copyWith(color: AppColors.redED),
-                ),
-              ],
+                  height(30),
+                  Text(
+                    "تسجيل الخروج",
+                    style:
+                        AppTextStyle.style20.copyWith(color: AppColors.redED),
+                  ),
+                ],
+              ),
             ),
           ));
         },
