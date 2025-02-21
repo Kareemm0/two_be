@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/Auth/presentation/cubit/auth_cubit.dart';
 import 'package:two_be/Features/Auth/presentation/cubit/auth_state.dart';
 import 'package:two_be/Features/Auth/presentation/widget/custom_social_media_buttons.dart';
 import 'package:two_be/Features/Auth/presentation/widget/custom_text_form_filed.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_text_style.dart';
@@ -68,6 +70,9 @@ class LoginScreen extends StatelessWidget {
                           text: "تسجيل الدخول",
                           containerColor: AppColors.secondaryColor,
                           textColor: AppColors.primaryColor,
+                          onPressed: () {
+                            context.pushReplacement(Routes.bottomNavigationBar);
+                          },
                         ),
                         CustomAuthText(
                           isLoadgin: true,

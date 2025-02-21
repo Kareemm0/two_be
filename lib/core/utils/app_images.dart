@@ -10,4 +10,8 @@ class AppImages {
   //! Vectors Images
 
   static const String google = '${_vectos}google.svg';
+  static const String home = '${_vectos}home.svg';
+  static const String search = '${_vectos}search.svg';
+  static const String cart = '${_vectos}cart.svg';
+  static const String profile = '${_vectos}profile.svg';
 }

@@ -3,4 +3,5 @@ class Routes {
   static String login = '/login';
   static String onBoarding = '/onBoarding';
   static String register = '/register';
+  static String bottomNavigationBar = '/bottomNavigationBar';
 }
