@@ -6,4 +6,5 @@ class Routes {
   static String bottomNavigationBar = '/bottomNavigationBar';
   static String category = '/categories';
   static String product = '/product';
+  static String productDetails = '/productDetails';
 }

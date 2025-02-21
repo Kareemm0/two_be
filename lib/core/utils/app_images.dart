@@ -21,4 +21,5 @@ class AppImages {
   static const String heart = '${_vectos}heart.svg';
   static const String arrow = '${_vectos}arrow.svg';
   static const String add = '${_vectos}add.svg';
+  static const String star = '${_vectos}star.svg';
 }
