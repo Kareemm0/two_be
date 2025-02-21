@@ -22,4 +22,7 @@ class AppImages {
   static const String arrow = '${_vectos}arrow.svg';
   static const String add = '${_vectos}add.svg';
   static const String star = '${_vectos}star.svg';
+  static const String delete = '${_vectos}delete.svg';
+  static const String minus = '${_vectos}minus.svg';
+  static const String plus = '${_vectos}plus.svg';
 }
