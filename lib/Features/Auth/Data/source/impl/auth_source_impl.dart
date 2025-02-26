@@ -56,4 +56,17 @@ class AuthSourceImpl implements AuthSource {
       rethrow;
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> forgetPassword({required String email}) async {
+    try {
+      final reposnse = await dio.post(
+        EndPoints.forgetPassword,
+        data: {"email": email},
+      );
+      return reposnse.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -15,4 +15,6 @@ abstract class AuthSource {
     required String email,
     required String password,
   });
+
+  Future<Map<String, dynamic>> forgetPassword({required String email});
 }

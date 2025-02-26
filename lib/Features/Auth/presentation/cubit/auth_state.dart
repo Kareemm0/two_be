@@ -76,3 +76,21 @@ final class ImagePickerSuccessState extends AuthState {
   @override
   List<Object?> get props => [image];
 }
+
+final class ForgetPasswordSuccessState extends AuthState {
+  final String message;
+
+  ForgetPasswordSuccessState(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+final class ForgetPasswordFailureState extends AuthState {
+  final String message;
+
+  ForgetPasswordFailureState(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

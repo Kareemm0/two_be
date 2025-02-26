@@ -67,4 +67,18 @@ class AuthRepoImpl implements AuthRepo {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> forgetPassword(
+      {required String email}) async {
+    try {
+      final response = await _source.forgetPassword(email: email);
+      if (response['status'] == 200) {
+        return Right(response['message']);
+      }
+      return Left(ServerFailure(response['message']));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
