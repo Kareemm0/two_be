@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:two_be/core/extension/extension.dart';
 
 import '../../../../Core/utils/app_colors.dart';
 import '../../../../core/utils/app_images.dart';
@@ -22,7 +24,9 @@ class CustomHeaderAndIcon extends StatelessWidget {
             color: AppColors.blackColor,
           ),
         ),
-        CustomIconContainer(assetName: AppImages.arrow),
+        CustomIconContainer(assetName: AppImages.arrow).onTap(() {
+          context.pop();
+        }),
       ],
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../home/data/models/category_model/category_model/category_model.dart';
 import '../widget/custom_category_grid_view_item.dart';
 import '../widget/custom_header_and_icon.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
+  final List<CategoryModel> category;
+  const CategoriesScreen({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {

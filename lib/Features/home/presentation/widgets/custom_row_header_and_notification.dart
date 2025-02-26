@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:two_be/core/utils/app_sizes.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_icon_container.dart';
@@ -32,6 +33,12 @@ class CustomRowHeaderAndNotification extends StatelessWidget {
             ),
           ],
         ),
+        Image.asset(
+          AppImages.logo,
+          height: 50,
+          width: 50,
+        ),
+        width(0),
         CustomIconContainer(
           assetName: AppImages.notification,
         ),
