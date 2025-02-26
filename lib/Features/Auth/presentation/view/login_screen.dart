@@ -5,6 +5,7 @@ import 'package:two_be/Features/Auth/presentation/cubit/auth_cubit.dart';
 import 'package:two_be/Features/Auth/presentation/cubit/auth_state.dart';
 import 'package:two_be/Features/Auth/presentation/widget/custom_social_media_buttons.dart';
 import 'package:two_be/Features/Auth/presentation/widget/custom_text_form_filed.dart';
+import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/functions/validation.dart';
 import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_colors.dart';
@@ -82,7 +83,9 @@ class LoginScreen extends StatelessWidget {
                               "نسيت كلمة المرور؟",
                               style: AppTextStyle.style16
                                   .copyWith(color: AppColors.secondaryColor),
-                            ),
+                            ).onTap(() {
+                              context.push(Routes.forgetPasswordScreen);
+                            }),
                           ),
                           CustomAppButton(
                             text: "تسجيل الدخول",

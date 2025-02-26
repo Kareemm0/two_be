@@ -82,4 +82,16 @@ class AuthCubit extends Cubit<AuthState> {
       emit(GetCountriesSuccessState(r));
     });
   }
+
+  //!======== Forget Password Section =========!//
+  Future<void> forgetPassword() async {
+    emit(AuthLoadingState());
+    if (formKey.currentState!.validate()) {
+      final result = await _repo.forgetPassword(email: emailController.text);
+      result.fold(
+        (l) => emit(ForgetPasswordFailureState(l.message)),
+        (r) => emit(ForgetPasswordSuccessState(r)),
+      );
+    }
+  }
 }

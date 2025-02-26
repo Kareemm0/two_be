@@ -9,6 +9,7 @@ import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_screen.dart';
 import 'package:two_be/core/routes/routes.dart';
+import '../../Features/Auth/presentation/view/forget_password_screen.dart';
 import '../../Features/splash/presentation/view/splash_screen.dart';
 
 final appRouter = GoRouter(routes: [
@@ -50,5 +51,9 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: Routes.orderSummary,
     builder: (ctx, state) => OrderSummaryScreen(),
+  ),
+  GoRoute(
+    path: Routes.forgetPasswordScreen,
+    builder: (ctx, state) => ForgetPasswordScreen(),
   )
 ]);
