@@ -6,7 +6,8 @@ import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_sizes.dart';
 
 class CustomSocialMediaButtons extends StatelessWidget {
-  const CustomSocialMediaButtons({super.key});
+  final Color? borderColor;
+  const CustomSocialMediaButtons({super.key, this.borderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CustomSocialMediaButtons extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: AppColors.secondaryColor,
+                color: borderColor ?? AppColors.secondaryColor,
               ),
             ),
             child: SvgPicture.asset(AppImages.google),

@@ -4,7 +4,8 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomRowDivider extends StatelessWidget {
-  const CustomRowDivider({super.key});
+  final Color? textColor;
+  const CustomRowDivider({super.key, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +14,17 @@ class CustomRowDivider extends StatelessWidget {
       children: [
         Expanded(child: Divider()),
         Expanded(
-            child: Text(
-          "او سجل عن طريق",
-          style: AppTextStyle.style16.copyWith(color: AppColors.secondaryColor),
+            child: FittedBox(
+          child: Text(
+            "او سجل عن طريق",
+            style: AppTextStyle.style16
+                .copyWith(color: textColor ?? AppColors.secondaryColor),
+          ),
         )),
-        Expanded(child: Divider()),
+        Expanded(
+            child: Divider(
+          color: textColor ?? AppColors.secondaryColor,
+        )),
       ],
     );
   }
