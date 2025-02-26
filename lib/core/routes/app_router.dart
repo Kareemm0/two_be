@@ -4,6 +4,7 @@ import 'package:two_be/Features/Auth/presentation/view/register_screen.dart';
 import 'package:two_be/Features/bottom_nav_bar/presentation/view/bottom_nav_bar_screen.dart';
 import 'package:two_be/Features/cart/presentation/views/order_summary_screen.dart';
 import 'package:two_be/Features/categories/presentation/views/categories_screen.dart';
+import 'package:two_be/Features/home/data/models/category_model/category_model/category_model.dart';
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_screen.dart';
@@ -33,7 +34,10 @@ final appRouter = GoRouter(routes: [
   ),
   GoRoute(
     path: Routes.category,
-    builder: (ctx, state) => CategoriesScreen(),
+    builder: (ctx, state) {
+      final category = state.extra;
+      return CategoriesScreen(category: category as List<CategoryModel>);
+    },
   ),
   GoRoute(
     path: Routes.product,

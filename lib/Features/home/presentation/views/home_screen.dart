@@ -6,6 +6,7 @@ import 'package:two_be/Features/home/presentation/widgets/custom_image_container
 import 'package:two_be/Features/home/presentation/widgets/custom_row_text_category.dart';
 import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
+import 'package:two_be/di.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../widgets/custom_category_list_view.dart';
 import '../widgets/custom_dotted_slider.dart';
@@ -17,7 +18,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit()..startAutoSlide(),
+      create: (context) => HomeCubit(getIt())
+        ..getCategory()
+        ..startAutoSlide(),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final cubit = context.read<HomeCubit>();
@@ -67,7 +70,10 @@ class HomeScreen extends StatelessWidget {
                           CustomRowTextCategory(
                             text: "الاقسام",
                             onTap: () {
-                              context.push(Routes.category);
+                              context.push(
+                                Routes.category,
+                                extra: cubit.categories,
+                              );
                             },
                           ),
                           SizedBox(
@@ -75,7 +81,12 @@ class HomeScreen extends StatelessWidget {
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                return CustomCategoryListView();
+                                return CustomCategoryListView(
+                                  categoryName:
+                                      cubit.categories[index].name ?? "",
+                                  image:
+                                      cubit.categories[index].image?.src ?? "",
+                                );
                               },
                               separatorBuilder: (context, index) {
                                 return width(16);
@@ -93,12 +104,16 @@ class HomeScreen extends StatelessWidget {
                             child: ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                return CustomCategoryListView();
+                                return CustomCategoryListView(
+                                  categoryName: "ساعه",
+                                  image:
+                                      "https://www.almrsal.com/wp-content/uploads/2021/06/1-1.jpg",
+                                );
                               },
                               separatorBuilder: (context, index) {
                                 return width(16);
                               },
-                              itemCount: 10,
+                              itemCount: cubit.categories.length,
                             ),
                           ),
                         ],

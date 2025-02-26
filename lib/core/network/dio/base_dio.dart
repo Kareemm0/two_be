@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-
 abstract class BaseDio {
   /// POST METHOD
   Future<Response<dynamic>> post(

@@ -17,3 +17,14 @@ final class ChangeIndexState extends HomeState {
   @override
   List<Object> get props => [index];
 }
+
+final class GetCategorySuccessState extends HomeState {
+  final List<CategoryModel> category;
+
+  const GetCategorySuccessState(this.category);
+
+  @override
+  List<Object> get props => [category];
+}
+
+final class GetCategoryFailureState extends HomeState {}

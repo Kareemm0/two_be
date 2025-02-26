@@ -6,7 +6,10 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomCategoryListView extends StatelessWidget {
-  const CustomCategoryListView({super.key});
+  final String image;
+  final String categoryName;
+  const CustomCategoryListView(
+      {super.key, required this.image, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,13 @@ class CustomCategoryListView extends StatelessWidget {
             flex: 4,
             child: Stack(
               children: [
-                Image.asset(AppImages.watch),
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Image.network(image),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SvgPicture.asset(AppImages.heart),
@@ -31,12 +40,12 @@ class CustomCategoryListView extends StatelessWidget {
               ],
             ),
           ),
-          Flexible(child: Text("ساعة", style: AppTextStyle.style16)),
-          Flexible(
-            child: Text("40\$",
-                style: AppTextStyle.style14
-                    .copyWith(color: AppColors.primaryColor)),
-          ),
+          Flexible(child: Text(categoryName, style: AppTextStyle.style16)),
+          // Flexible(
+          //   child: Text("40\$",
+          //       style: AppTextStyle.style14
+          //           .copyWith(color: AppColors.primaryColor)),
+          // ),
         ],
       ),
     );
