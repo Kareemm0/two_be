@@ -7,7 +7,8 @@ import '../../../../core/utils/app_text_style.dart';
 
 class CustomAuthText extends StatelessWidget {
   final bool isLoadgin;
-  const CustomAuthText({super.key, required this.isLoadgin});
+  final Color? textColor;
+  const CustomAuthText({super.key, required this.isLoadgin, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +16,13 @@ class CustomAuthText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(isLoadgin ? "ليس لديك حساب ؟ " : "هل لديك حساب بالفعل ؟ ",
-            style: AppTextStyle.style14),
+            style: AppTextStyle.style14.copyWith(
+              color: textColor ?? AppColors.secondaryColor,
+            )),
         Text(isLoadgin ? "سجل حساب جديد" : "قم بتسجيل الدخول",
             style: AppTextStyle.style16.copyWith(
-              color: AppColors.secondaryColor,
+              color: textColor ?? AppColors.secondaryColor,
+              fontWeight: FontWeight.w700,
             )).onTap(() {
           isLoadgin
               ? context.push(Routes.register)

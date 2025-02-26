@@ -8,7 +8,7 @@ ThemeData appThemeData = ThemeData(
   useMaterial3: true,
   fontFamily: "Cairo",
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: AppTextStyle.style14.copyWith(color: AppColors.grey8),
+    hintStyle: AppTextStyle.style14.copyWith(color: AppColors.primaryColor),
     errorBorder: outLineInputBorder(
       color: AppColors.redED,
     ),

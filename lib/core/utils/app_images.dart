@@ -9,6 +9,8 @@ class AppImages {
   static const String slider = '${_path}slider.png';
   static const String watch = '${_path}watch.png';
   static const String shoos = '${_path}shoo.png';
+  static const String profilePic = '${_path}profile.png';
+  static const String profilePict = '${_path}profilePic.png';
 
   //! Vectors Images
 
