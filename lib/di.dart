@@ -10,9 +10,14 @@ import 'package:two_be/Features/home/data/repo/home_repo_impl.dart';
 import 'package:two_be/Features/home/data/source/impl/home_source_impl.dart';
 import 'package:two_be/Features/home/domin/repo/home_repo.dart';
 import 'package:two_be/Features/home/presentation/cubit/home_cubit.dart';
+import 'package:two_be/Features/products/data/source/base/products_source.dart';
+import 'package:two_be/Features/products/data/source/impl/products_source_impl.dart';
+import 'package:two_be/Features/products/domin/products_repo.dart';
+import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/core/network/dio/dio_client.dart';
 import 'Features/Auth/domian/repo/auth_repo.dart';
 import 'Features/home/data/source/base/home_source.dart';
+import 'Features/products/data/domin/products_repo_impl.dart';
 import 'core/constant/end_points.dart';
 import 'core/network/dio/base_dio.dart';
 import 'core/network/dio/dio_interceptor.dart';
@@ -61,14 +66,17 @@ Future<void> _registerSingletons() async {
 void _registerDataSources() {
   getIt.registerSingleton<AuthSource>(AuthSourceImpl(getIt()));
   getIt.registerSingleton<HomeSource>(HomeSourceImpl(getIt()));
+  getIt.registerSingleton<ProductsSource>(ProductsSourceImpl(getIt()));
 }
 
 void _registerRepos() {
   getIt.registerSingleton<AuthRepo>(AuthRepoImpl(getIt()));
   getIt.registerSingleton<HomeRepo>(HomeRepoImpl(getIt()));
+  getIt.registerSingleton<ProductsRepo>(ProductsRepoImpl(getIt()));
 }
 
 void _registerFactory() {
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt()));
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
+  getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
 }

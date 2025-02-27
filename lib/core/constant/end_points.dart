@@ -5,4 +5,5 @@ class EndPoints {
   static const String login = "/wp-json/custom/v1/login";
   static String catgory = "/wp-json/wc/v3/products/categories";
   static String forgetPassword = "/wp-json/custom/v1/forgot-password/";
+  static String products = "//wp-json/wc/v3/products";
 }

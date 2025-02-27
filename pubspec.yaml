@@ -22,6 +22,7 @@ dependencies:
   go_router: ^14.8.0
   image_picker: ^1.1.2
   intl: any
+  lottie: ^3.3.1
   shared_preferences: ^2.5.2
 
 dev_dependencies:
@@ -36,6 +37,7 @@ flutter:
   assets:
     - assets/images/
     - assets/vectors/
+    - assets/animations/
 
   fonts:
     - family: Cairo
