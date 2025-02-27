@@ -6,8 +6,10 @@ import 'package:two_be/Features/home/presentation/widgets/custom_image_container
 import 'package:two_be/Features/home/presentation/widgets/custom_row_text_category.dart';
 import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/routes/routes.dart';
+import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/di.dart';
+import '../../../../core/widgets/aimated_loader.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../widgets/custom_category_list_view.dart';
 import '../widgets/custom_dotted_slider.dart';
@@ -26,109 +28,117 @@ class HomeScreen extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<HomeCubit>();
           return Scaffold(
-            body: Column(
-              spacing: 16,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16, top: 40, left: 16),
-                  child: Column(
+            body: state is HomeLoadingState
+                ? AimatedLoader(
+                    animation: AppImages.authLoader,
+                  )
+                : Column(
                     spacing: 16,
                     children: [
-                      CustomRowHeaderAndNotification(),
-                      CustomSearchBar(controller: TextEditingController()),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(right: 16, top: 40, left: 16),
+                        child: Column(
+                          spacing: 16,
+                          children: [
+                            CustomRowHeaderAndNotification(),
+                            CustomSearchBar(
+                                controller: TextEditingController()),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 150,
+                        child: PageView.builder(
+                          onPageChanged: cubit.onPageChanged,
+                          controller: cubit.pageController,
+                          itemCount: cubit.imageUrls.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: CustomImageContainer(
+                                image: cubit.imageUrls[index],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      CustomDottedSlider(
+                        currentPage: cubit.currentPage,
+                        imageLength: cubit.imageUrls.length,
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              spacing: 16,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                height(16),
+                                CustomRowTextCategory(
+                                  text: "الاقسام",
+                                  onTap: () {
+                                    context.push(
+                                      Routes.category,
+                                      extra: cubit.categories,
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 150,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return CustomCategoryListView(
+                                        categoryName:
+                                            cubit.categories[index].name ?? "",
+                                        image: cubit
+                                                .categories[index].image?.src ??
+                                            "",
+                                      ).onTap(() {
+                                        context.push(
+                                          Routes.product,
+                                          extra: cubit.categories[index].name,
+                                        );
+                                      });
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return width(16);
+                                    },
+                                    itemCount: 10,
+                                  ),
+                                ),
+                                height(16),
+                                CustomRowTextCategory(
+                                  text: "الاكثر مبيعا",
+                                  onTap: () => context.push(Routes.product),
+                                ),
+                                SizedBox(
+                                  height: 150,
+                                  child: ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return CustomCategoryListView(
+                                        categoryName: "ساعه",
+                                        image:
+                                            "https://www.almrsal.com/wp-content/uploads/2021/06/1-1.jpg",
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return width(16);
+                                    },
+                                    itemCount: cubit.categories.length,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: 150,
-                  child: PageView.builder(
-                    onPageChanged: cubit.onPageChanged,
-                    controller: cubit.pageController,
-                    itemCount: cubit.imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: CustomImageContainer(
-                          image: cubit.imageUrls[index],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                CustomDottedSlider(
-                  currentPage: cubit.currentPage,
-                  imageLength: cubit.imageUrls.length,
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        spacing: 16,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          height(16),
-                          CustomRowTextCategory(
-                            text: "الاقسام",
-                            onTap: () {
-                              context.push(
-                                Routes.category,
-                                extra: cubit.categories,
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: 150,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return CustomCategoryListView(
-                                  categoryName:
-                                      cubit.categories[index].name ?? "",
-                                  image:
-                                      cubit.categories[index].image?.src ?? "",
-                                ).onTap(() {
-                                  context.push(
-                                    Routes.product,
-                                    extra: cubit.categories[index].name,
-                                  );
-                                });
-                              },
-                              separatorBuilder: (context, index) {
-                                return width(16);
-                              },
-                              itemCount: 10,
-                            ),
-                          ),
-                          height(16),
-                          CustomRowTextCategory(
-                            text: "الاكثر مبيعا",
-                            onTap: () => context.push(Routes.product),
-                          ),
-                          SizedBox(
-                            height: 150,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return CustomCategoryListView(
-                                  categoryName: "ساعه",
-                                  image:
-                                      "https://www.almrsal.com/wp-content/uploads/2021/06/1-1.jpg",
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return width(16);
-                              },
-                              itemCount: cubit.categories.length,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           );
         },
       ),

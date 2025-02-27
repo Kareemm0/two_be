@@ -18,6 +18,8 @@ final class ChangeIndexState extends HomeState {
   List<Object> get props => [index];
 }
 
+final class HomeLoadingState extends HomeState {}
+
 final class GetCategorySuccessState extends HomeState {
   final List<CategoryModel> category;
 

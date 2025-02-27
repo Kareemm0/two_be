@@ -46,6 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
   //!============ Get Category ============!//
 
   Future<void> getCategory() async {
+    emit(HomeLoadingState());
     final reslut = await _repo.getCategory();
     reslut.fold(
       (l) => emit(GetCategoryFailureState()),

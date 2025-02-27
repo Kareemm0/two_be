@@ -12,6 +12,7 @@ class AppImages {
   static const String shoos = '${_path}shoo.png';
   static const String profilePic = '${_path}profile.png';
   static const String profilePict = '${_path}profilePic.png';
+  static const String per = '${_path}per.jpg';
 
   //! Vectors Images
 
