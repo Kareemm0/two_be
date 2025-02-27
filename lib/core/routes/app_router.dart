@@ -42,11 +42,17 @@ final appRouter = GoRouter(routes: [
   ),
   GoRoute(
     path: Routes.product,
-    builder: (ctx, state) => ProductsScreen(),
+    builder: (ctx, state) {
+      final categoryName = state.extra;
+      return ProductsScreen(categoryName: categoryName as String);
+    },
   ),
   GoRoute(
     path: Routes.productDetails,
-    builder: (ctx, state) => ProductsDetailsScreen(),
+    builder: (ctx, state) {
+      final id = state.extra;
+      return ProductsDetailsScreen(id: int.parse(id.toString()));
+    },
   ),
   GoRoute(
     path: Routes.orderSummary,

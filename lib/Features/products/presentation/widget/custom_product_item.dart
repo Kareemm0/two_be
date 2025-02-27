@@ -6,7 +6,14 @@ import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomProductItem extends StatelessWidget {
-  const CustomProductItem({super.key});
+  final String imageUrl;
+  final String title;
+  final String price;
+  const CustomProductItem(
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -19,33 +26,41 @@ class CustomProductItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              spacing: 16,
-              children: [
-                Stack(
-                  children: [
-                    Image.asset(
-                      AppImages.watch,
+            Flexible(
+              child: Row(
+                spacing: 16,
+                children: [
+                  Stack(
+                    children: [
+                      Image.network(
+                        width: 100,
+                        height: 100,
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(AppImages.heart),
+                      )
+                    ],
+                  ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 16,
+                      children: [
+                        Text(title, style: AppTextStyle.style16),
+                        Text("بوما", style: AppTextStyle.style14),
+                        Text(
+                          "$price\$",
+                          style: AppTextStyle.style14
+                              .copyWith(color: AppColors.primaryColor),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(AppImages.heart),
-                    )
-                  ],
-                ),
-                Column(
-                  spacing: 16,
-                  children: [
-                    Text("ساعة", style: AppTextStyle.style16),
-                    Text("بوما", style: AppTextStyle.style14),
-                    Text(
-                      "40\$",
-                      style: AppTextStyle.style14
-                          .copyWith(color: AppColors.primaryColor),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
             SvgPicture.asset(AppImages.add)
           ],

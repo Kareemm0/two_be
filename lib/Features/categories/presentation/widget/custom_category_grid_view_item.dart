@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomCategoryGridViewItem extends StatelessWidget {
-  const CustomCategoryGridViewItem({super.key});
+  final String image;
+  final String title;
+  const CustomCategoryGridViewItem(
+      {super.key, required this.image, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -20,35 +20,24 @@ class CustomCategoryGridViewItem extends StatelessWidget {
         spacing: 12,
         children: [
           Flexible(
-            child: Stack(
-              children: [
-                Image.asset(
-                  width: double.infinity,
-                  AppImages.shoos,
-                  fit: BoxFit.fill,
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(AppImages.heart),
-                )
-              ],
+              ),
+              child: Image.network(
+                width: double.infinity,
+                image,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Text("ساعة", style: AppTextStyle.style16),
-                  Text(
-                    "40\$",
-                    style: AppTextStyle.style14
-                        .copyWith(color: AppColors.primaryColor),
-                  ),
-                ],
-              ),
-              SvgPicture.asset(AppImages.add)
-            ],
+          Text(
+            title,
+            style: AppTextStyle.style16,
           )
         ],
       ),

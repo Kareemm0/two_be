@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:two_be/Features/home/presentation/widgets/custom_image_container.dart';
 import 'package:two_be/Features/home/presentation/widgets/custom_row_text_category.dart';
+import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/di.dart';
@@ -86,7 +87,12 @@ class HomeScreen extends StatelessWidget {
                                       cubit.categories[index].name ?? "",
                                   image:
                                       cubit.categories[index].image?.src ?? "",
-                                );
+                                ).onTap(() {
+                                  context.push(
+                                    Routes.product,
+                                    extra: cubit.categories[index].name,
+                                  );
+                                });
                               },
                               separatorBuilder: (context, index) {
                                 return width(16);

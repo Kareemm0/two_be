@@ -1,6 +1,7 @@
 class AppImages {
   static const String _path = 'assets/images/';
   static const String _vectos = 'assets/vectors/';
+  static const String _lottie = 'assets/animations/';
 
   static const String logo = '${_path}logo.webp';
   static const String onbarding1 = '${_path}onbarding1.png';
@@ -39,4 +40,9 @@ class AppImages {
   static const String langu = '${_vectos}langu.svg';
   static const String privacy = '${_vectos}privcy.svg';
   static const String setting = '${_vectos}settings.svg';
+
+  // ! animation lottie
+  static const String emptyList = '${_lottie}empty_list.json';
+  static const String loading = '${_lottie}loader.json';
+  static const String authLoader = '${_lottie}auth_loader.json';
 }

@@ -13,8 +13,8 @@ class HomeSourceImpl implements HomeSource {
   Future<List<dynamic>> getCategory() async {
     try {
       final response = await _dio.get(EndPoints.catgory, queryParameters: {
-        "consumer_key": consumerKey,
-        "consumer_secret": consumerSecret,
+        consumerKeyValue: consumerKey,
+        consumerSecretValue: consumerSecret,
       });
       return response.data;
     } catch (e) {
