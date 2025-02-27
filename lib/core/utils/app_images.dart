@@ -44,4 +44,5 @@ class AppImages {
   // ! animation lottie
   static const String emptyList = '${_lottie}empty_list.json';
   static const String loading = '${_lottie}loader.json';
+  static const String authLoader = '${_lottie}auth_loader.json';
 }

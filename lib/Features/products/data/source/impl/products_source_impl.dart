@@ -20,4 +20,18 @@ class ProductsSourceImpl implements ProductsSource {
       rethrow;
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> getProductDetails(String id) async {
+    try {
+      final reponse =
+          await _dio.get(EndPoints.productsDetails(id), queryParameters: {
+        consumerKeyValue: consumerKey,
+        consumerSecretValue: consumerSecret,
+      });
+      return reponse.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

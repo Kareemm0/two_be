@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:two_be/core/utils/app_sizes.dart';
 
 import '../../../../Core/utils/app_colors.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomProductNameAndReview extends StatelessWidget {
-  const CustomProductNameAndReview({super.key});
+  final String productName;
+  final int review;
+  const CustomProductNameAndReview(
+      {super.key, required this.productName, required this.review});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          children: [
-            Text(
-              "المنتج",
-              style: AppTextStyle.style16.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+        Flexible(
+          child: Text(
+            productName,
+            style: AppTextStyle.style16.copyWith(
+              fontWeight: FontWeight.w700,
             ),
-          ],
+          ),
         ),
+        width(16),
         Row(
           spacing: 8,
           children: [
@@ -34,7 +37,7 @@ class CustomProductNameAndReview extends StatelessWidget {
               ),
             ),
             Text(
-              "(20 Review)",
+              "($review Review)",
               style: AppTextStyle.style16.copyWith(
                 color: AppColors.primaryColor,
               ),

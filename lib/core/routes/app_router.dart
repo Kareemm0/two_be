@@ -49,7 +49,10 @@ final appRouter = GoRouter(routes: [
   ),
   GoRoute(
     path: Routes.productDetails,
-    builder: (ctx, state) => ProductsDetailsScreen(),
+    builder: (ctx, state) {
+      final id = state.extra;
+      return ProductsDetailsScreen(id: int.parse(id.toString()));
+    },
   ),
   GoRoute(
     path: Routes.orderSummary,

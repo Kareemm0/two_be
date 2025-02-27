@@ -52,7 +52,9 @@ class ProductsScreen extends StatelessWidget {
                                         cubit.categoryProducts[index].price ??
                                             "",
                                   ).onTap(() {
-                                    context.push(Routes.productDetails);
+                                    context.push(Routes.productDetails,
+                                        extra:
+                                            cubit.categoryProducts[index].id);
                                   }),
                                   separatorBuilder: (context, index) =>
                                       height(16),

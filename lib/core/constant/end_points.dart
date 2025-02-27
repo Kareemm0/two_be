@@ -6,4 +6,5 @@ class EndPoints {
   static String catgory = "/wp-json/wc/v3/products/categories";
   static String forgetPassword = "/wp-json/custom/v1/forgot-password/";
   static String products = "//wp-json/wc/v3/products";
+  static String productsDetails(String id) => "/wp-json/wc/v3/products/$id";
 }
