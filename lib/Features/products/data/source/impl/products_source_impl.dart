@@ -28,6 +28,7 @@ class ProductsSourceImpl implements ProductsSource {
           await _dio.get(EndPoints.productsDetails(id), queryParameters: {
         consumerKeyValue: consumerKey,
         consumerSecretValue: consumerSecret,
+        perPage: 100,
       });
       return reponse.data;
     } catch (e) {
