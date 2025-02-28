@@ -68,11 +68,13 @@ class HomeScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomRowHeaderAndNotification(),
+                            height(16),
                             CustomSearchBar(
                                 controller: TextEditingController()),
                           ],
                         ),
                       ),
+                      height(16),
                       SizedBox(
                         height: 150,
                         child: PageView.builder(
@@ -90,6 +92,7 @@ class HomeScreen extends StatelessWidget {
                           },
                         ),
                       ),
+                      height(16),
                       CustomDottedSlider(
                         currentPage: cubit.currentPage,
                         imageLength: cubit.banners.length,
