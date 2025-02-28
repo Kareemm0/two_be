@@ -12,13 +12,15 @@ class AuthRepoImpl implements AuthRepo {
 
   AuthRepoImpl(this._source);
   @override
-  Future<Either<Failure, User>> register(
-      {required String username,
-      required String email,
-      required String phone,
-      required String password,
-      required String passwordConfirmation,
-      required File image}) async {
+  Future<Either<Failure, User>> register({
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+    required String passwordConfirmation,
+    required File image,
+    required String country,
+  }) async {
     try {
       final resonse = await _source.register(
         username: username,
@@ -27,11 +29,12 @@ class AuthRepoImpl implements AuthRepo {
         password: password,
         passwordConfirmation: passwordConfirmation,
         image: image,
+        country: country,
       );
-      if (resonse['status'] != 200) {
+      if (resonse['token'] == null) {
         return Left(ServerFailure(resonse['message']));
       }
-      return Right(User.fromJson(resonse['data']));
+      return Right(User.fromJson(resonse));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

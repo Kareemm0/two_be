@@ -14,6 +14,7 @@ abstract class AuthRepo {
     required String password,
     required String passwordConfirmation,
     required File image,
+    required String country,
   });
 
   Future<Either<Failure, List<CountriesModel>>> getCountries();

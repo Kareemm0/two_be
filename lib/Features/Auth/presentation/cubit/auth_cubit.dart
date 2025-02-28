@@ -63,6 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
         password: passwordController.text,
         passwordConfirmation: confirmPasswordController.text,
         image: profileImage!,
+        country: selectedItem,
       );
 
       result.fold(

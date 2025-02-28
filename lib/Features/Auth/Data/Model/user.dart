@@ -8,6 +8,7 @@ class User with EquatableMixin {
   final String? avatar;
   final String? token;
   final String? message;
+  final String? country;
 
   const User({
     this.id,
@@ -17,6 +18,7 @@ class User with EquatableMixin {
     this.avatar,
     this.token,
     this.message,
+    this.country,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -27,6 +29,7 @@ class User with EquatableMixin {
         avatar: json['avatar'] as String?,
         token: json['token'] as String?,
         message: json['message'] as String?,
+        country: json['country'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,6 +40,7 @@ class User with EquatableMixin {
         'avatar': avatar,
         'token': token,
         'message': message,
+        'country': country,
       };
 
   @override
@@ -49,6 +53,7 @@ class User with EquatableMixin {
       avatar,
       token,
       message,
+      country,
     ];
   }
 }

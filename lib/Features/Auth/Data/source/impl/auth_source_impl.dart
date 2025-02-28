@@ -11,23 +11,43 @@ class AuthSourceImpl implements AuthSource {
 
   AuthSourceImpl(this.dio);
   @override
-  Future<Map<String, dynamic>> register(
-      {required String username,
-      required String email,
-      required String phone,
-      required String password,
-      required String passwordConfirmation,
-      required File image}) async {
+  @override
+  Future<Map<String, dynamic>> register({
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+    required String passwordConfirmation,
+    required String country,
+    required File image,
+  }) async {
     try {
-      final reponse = await dio.post(EndPoints.register, data: {
+      MultipartFile multipartFile = await MultipartFile.fromFile(
+        image.path,
+        filename: image.path.split('/').last, // Extract filename
+      );
+
+      FormData formData = FormData.fromMap({
         "username": username,
         "email": email,
         "phone": phone,
         "password": password,
         "confirm_password": passwordConfirmation,
-        "image": await MultipartFile.fromFile(image.path)
+        "country": country,
+        "image": multipartFile,
       });
-      return reponse.data;
+
+      final response = await dio.post(
+        EndPoints.register,
+        data: formData,
+        options: Options(
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        ),
+      );
+
+      return response.data;
     } catch (e) {
       rethrow;
     }
