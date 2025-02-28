@@ -30,3 +30,14 @@ final class GetCategorySuccessState extends HomeState {
 }
 
 final class GetCategoryFailureState extends HomeState {}
+
+final class GetBannersSuccessState extends HomeState {
+  final List<BannersModel> banners;
+
+  const GetBannersSuccessState(this.banners);
+
+  @override
+  List<Object> get props => [banners];
+}
+
+final class GetBannersFailureState extends HomeState {}

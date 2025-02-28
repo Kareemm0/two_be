@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit(getIt())
         ..getCategory()
+        ..getBanners()
         ..startAutoSlide(),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
@@ -52,13 +53,13 @@ class HomeScreen extends StatelessWidget {
                         child: PageView.builder(
                           onPageChanged: cubit.onPageChanged,
                           controller: cubit.pageController,
-                          itemCount: cubit.imageUrls.length,
+                          itemCount: cubit.banners.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: CustomImageContainer(
-                                image: cubit.imageUrls[index],
+                                image: cubit.banners[index].thumbnailUrl ?? " ",
                               ),
                             );
                           },
@@ -66,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       CustomDottedSlider(
                         currentPage: cubit.currentPage,
-                        imageLength: cubit.imageUrls.length,
+                        imageLength: cubit.banners.length,
                       ),
                       Expanded(
                         child: SingleChildScrollView(
