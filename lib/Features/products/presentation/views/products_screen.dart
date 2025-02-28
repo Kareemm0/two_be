@@ -44,8 +44,12 @@ class ProductsScreen extends StatelessWidget {
                                   itemBuilder: (context, index) =>
                                       CustomProductItem(
                                     imageUrl: cubit.categoryProducts[index]
-                                            .images![index].src ??
-                                        "",
+                                                .images?.isNotEmpty ==
+                                            true
+                                        ? cubit.categoryProducts[index]
+                                                .images![0].src ??
+                                            ""
+                                        : "",
                                     title: cubit.categoryProducts[index].name ??
                                         "",
                                     price:

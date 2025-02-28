@@ -15,18 +15,29 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductDetails? productDetailsById;
 
   Future<void> getProducts({
-    required String category,
+    String? category,
   }) async {
     emit(ProductsLoadingState());
+
     final response = await _repo.getProducts();
-    response.fold((l) => emit(ProductsFailureState(l.message)), (r) {
-      products.addAll(r);
-      categoryProducts = products
-          .where((cat) => cat.categories!.first.name == category)
-          .toList();
-      log("categoryProducts: ${categoryProducts.length}");
-      emit(ProcuctsSuccessState(products));
-    });
+
+    response.fold(
+      (l) => emit(ProductsFailureState(l.message)),
+      (r) {
+        products.addAll(r);
+
+        if (category != null) {
+          categoryProducts = products
+              .where((product) =>
+                  product.categories!.any((cat) => cat.name == category))
+              .toList();
+          log("categoryProducts: ${categoryProducts.length}");
+          emit(ProcuctsSuccessState(categoryProducts));
+        } else {
+          emit(ProcuctsSuccessState(products));
+        }
+      },
+    );
   }
 
   Future<void> getProductsDetails({

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:two_be/Features/home/data/models/banners_model/banners_model.dart';
 import 'package:two_be/Features/home/data/models/category_model/category_model/category_model.dart';
 import 'package:two_be/Features/home/data/source/base/home_source.dart';
 import 'package:two_be/Features/home/domin/repo/home_repo.dart';
@@ -20,6 +21,23 @@ class HomeRepoImpl implements HomeRepo {
           .map((json) => CategoryModel.fromJson(json as Map<String, dynamic>))
           .toList();
       return Right(country);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BannersModel>>> getBanners() async {
+    try {
+      final response = await _source.getBanners();
+      if (response.isEmpty) {
+        return Left(ServerFailure('No Data Found'));
+      }
+      final List<dynamic> banners = response;
+      final List<BannersModel> banner = banners
+          .map((json) => BannersModel.fromJson(json as Map<String, dynamic>))
+          .toList();
+      return Right(banner);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

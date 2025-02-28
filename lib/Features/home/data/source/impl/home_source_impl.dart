@@ -21,4 +21,14 @@ class HomeSourceImpl implements HomeSource {
       rethrow;
     }
   }
+
+  @override
+  Future<List<dynamic>> getBanners() async {
+    try {
+      final reponse = await _dio.get(EndPoints.banners);
+      return reponse.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

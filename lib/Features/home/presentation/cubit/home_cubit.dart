@@ -3,8 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:two_be/Features/home/domin/repo/home_repo.dart';
-import 'package:two_be/core/utils/app_images.dart';
-
+import '../../data/models/banners_model/banners_model.dart';
 import '../../data/models/category_model/category_model/category_model.dart';
 part 'home_state.dart';
 
@@ -15,15 +14,16 @@ class HomeCubit extends Cubit<HomeState> {
   int currentPage = 0;
 
   List<CategoryModel> categories = [];
+  List<BannersModel> banners = [];
 
-  final List<String> imageUrls = [
-    AppImages.slider,
-    AppImages.slider,
-  ];
+  // final List<String> imageUrls = [
+  //   AppImages.slider,
+  //   AppImages.slider,
+  // ];
 
   void startAutoSlide() {
     Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (currentPage < imageUrls.length - 1) {
+      if (currentPage < banners.length - 1) {
         currentPage++;
       } else {
         currentPage = 0;
@@ -53,6 +53,20 @@ class HomeCubit extends Cubit<HomeState> {
       (r) {
         categories = r;
         emit(GetCategorySuccessState(r));
+      },
+    );
+  }
+
+  //!============ Get Banners ============!//
+
+  Future<void> getBanners() async {
+    emit(HomeLoadingState());
+    final reslut = await _repo.getBanners();
+    reslut.fold(
+      (l) => emit(GetBannersFailureState()),
+      (r) {
+        banners = r;
+        emit(GetBannersSuccessState(r));
       },
     );
   }
