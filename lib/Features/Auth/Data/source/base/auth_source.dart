@@ -8,6 +8,7 @@ abstract class AuthSource {
     required String password,
     required String passwordConfirmation,
     required File image,
+    required String country,
   });
 
   Future<List<dynamic>> getCountries();
