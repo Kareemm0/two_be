@@ -3,7 +3,10 @@ import 'package:lottie/lottie.dart';
 
 class AimatedLoader extends StatelessWidget {
   final String animation;
-  const AimatedLoader({super.key, required this.animation});
+  final double? height;
+  final double? width;
+  const AimatedLoader(
+      {super.key, required this.animation, this.height, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +14,8 @@ class AimatedLoader extends StatelessWidget {
       body: Center(
         child: Lottie.asset(
           animation,
-          height: 200,
-          width: 200,
+          height: height ?? 200,
+          width: width ?? 200,
         ),
       ),
     );
