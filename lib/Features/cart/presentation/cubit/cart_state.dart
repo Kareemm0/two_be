@@ -30,3 +30,12 @@ final class GetCartSuccessState extends CartState {
   final List<CartModel> cart;
   const GetCartSuccessState(this.cart);
 }
+
+final class CreateOrderLoadingState extends CartState {}
+
+final class CreateOrderSuccessState extends CartState {}
+
+final class CreateOrderFailureState extends CartState {
+  final String message;
+  const CreateOrderFailureState(this.message);
+}

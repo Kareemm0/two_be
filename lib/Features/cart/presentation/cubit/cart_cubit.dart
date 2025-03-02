@@ -35,4 +35,13 @@ class CartCubit extends Cubit<CartState> {
       },
     );
   }
+
+  Future<void> createOrder() async {
+    emit(CreateOrderLoadingState());
+    final result = await _repo.createOrder();
+    result.fold(
+      (l) => emit(CreateOrderFailureState(l.message)),
+      (r) => emit(CreateOrderSuccessState()),
+    );
+  }
 }

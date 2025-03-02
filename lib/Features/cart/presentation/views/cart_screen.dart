@@ -58,19 +58,14 @@ class CartScreen extends StatelessWidget {
                                   itemCount: cubit.cart.length,
                                 ),
                               ),
-                              Visibility(
-                                  visible: cubit.cart.isNotEmpty,
-                                  child: CustomOrderSammeryDetails()),
+                              CustomOrderSammeryDetails(),
                               height(8),
-                              Visibility(
-                                visible: cubit.cart.isNotEmpty,
-                                child: CustomAppButton(
-                                  text: "تأكيد الطلب",
-                                  onPressed: () {
-                                    context.push(Routes.orderSummary);
-                                  },
-                                  radius: 30,
-                                ),
+                              CustomAppButton(
+                                text: "تأكيد الطلب",
+                                onPressed: () {
+                                  context.push(Routes.orderSummary);
+                                },
+                                radius: 30,
                               ),
                             ],
                           ),
