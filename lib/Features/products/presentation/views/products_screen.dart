@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
-import 'package:two_be/di.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/widgets/aimated_loader.dart';
 import '../../../categories/presentation/widget/custom_header_and_icon.dart';
@@ -18,59 +17,53 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          ProductsCubit(getIt())..getProducts(category: categoryName),
-      child: BlocBuilder<ProductsCubit, ProductsState>(
-        builder: (context, state) {
-          final cubit = context.read<ProductsCubit>();
-          return state is ProductsLoadingState
-              ? AimatedLoader(
-                  animation: AppImages.loading,
-                )
-              : Scaffold(
-                  body: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 40),
-                    child: Column(
-                      children: [
-                        CustomHeaderAndIcon(title: "المنتجات"),
-                        Expanded(
-                          child: cubit.categoryProducts.isEmpty
-                              ? AimatedLoader(
-                                  animation: AppImages.emptyList,
-                                )
-                              : ListView.separated(
-                                  itemBuilder: (context, index) =>
-                                      CustomProductItem(
-                                    imageUrl: cubit.categoryProducts[index]
-                                                .images?.isNotEmpty ==
-                                            true
-                                        ? cubit.categoryProducts[index]
-                                                .images![0].src ??
-                                            ""
-                                        : "",
-                                    title: cubit.categoryProducts[index].name ??
-                                        "",
-                                    price:
-                                        cubit.categoryProducts[index].price ??
-                                            "",
-                                  ).onTap(() {
-                                    context.push(Routes.productDetails,
-                                        extra:
-                                            cubit.categoryProducts[index].id);
-                                  }),
-                                  separatorBuilder: (context, index) =>
-                                      height(16),
-                                  itemCount: cubit.categoryProducts.length,
-                                ),
-                        )
-                      ],
-                    ),
+    return BlocBuilder<ProductsCubit, ProductsState>(
+      builder: (context, state) {
+        final cubit = context.read<ProductsCubit>();
+        return state is ProductsLoadingState
+            ? AimatedLoader(
+                animation: AppImages.loading,
+              )
+            : Scaffold(
+                body: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+                  child: Column(
+                    children: [
+                      CustomHeaderAndIcon(title: "المنتجات"),
+                      Expanded(
+                        child: cubit.categoryProducts.isEmpty
+                            ? AimatedLoader(
+                                animation: AppImages.emptyList,
+                              )
+                            : ListView.separated(
+                                itemBuilder: (context, index) =>
+                                    CustomProductItem(
+                                  imageUrl: cubit.categoryProducts[index].images
+                                              ?.isNotEmpty ==
+                                          true
+                                      ? cubit.categoryProducts[index].images![0]
+                                              .src ??
+                                          ""
+                                      : "",
+                                  title:
+                                      cubit.categoryProducts[index].name ?? "",
+                                  price:
+                                      cubit.categoryProducts[index].price ?? "",
+                                ).onTap(() {
+                                  context.push(Routes.productDetails,
+                                      extra: cubit.categoryProducts[index].id);
+                                }),
+                                separatorBuilder: (context, index) =>
+                                    height(16),
+                                itemCount: cubit.categoryProducts.length,
+                              ),
+                      )
+                    ],
                   ),
-                );
-        },
-      ),
+                ),
+              );
+      },
     );
   }
 }

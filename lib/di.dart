@@ -6,6 +6,7 @@ import 'package:two_be/Features/Auth/Data/repo/auth_repo_impl.dart';
 import 'package:two_be/Features/Auth/Data/source/base/auth_source.dart';
 import 'package:two_be/Features/Auth/Data/source/impl/auth_source_impl.dart';
 import 'package:two_be/Features/Auth/presentation/cubit/auth_cubit.dart';
+import 'package:two_be/Features/cart/data/source/base/cart_source.dart';
 import 'package:two_be/Features/home/data/repo/home_repo_impl.dart';
 import 'package:two_be/Features/home/data/source/impl/home_source_impl.dart';
 import 'package:two_be/Features/home/domin/repo/home_repo.dart';
@@ -16,6 +17,10 @@ import 'package:two_be/Features/products/domin/products_repo.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/core/network/dio/dio_client.dart';
 import 'Features/Auth/domian/repo/auth_repo.dart';
+import 'Features/cart/data/repo/cart_repo_impl.dart';
+import 'Features/cart/data/source/impl/cart_source_impl.dart';
+import 'Features/cart/domin/repo/cart_repo.dart';
+import 'Features/cart/presentation/cubit/cart_cubit.dart';
 import 'Features/home/data/source/base/home_source.dart';
 import 'Features/products/data/domin/products_repo_impl.dart';
 import 'core/constant/end_points.dart';
@@ -67,16 +72,19 @@ void _registerDataSources() {
   getIt.registerSingleton<AuthSource>(AuthSourceImpl(getIt()));
   getIt.registerSingleton<HomeSource>(HomeSourceImpl(getIt()));
   getIt.registerSingleton<ProductsSource>(ProductsSourceImpl(getIt()));
+  getIt.registerSingleton<CartSource>(CartSourceImpl(getIt()));
 }
 
 void _registerRepos() {
   getIt.registerSingleton<AuthRepo>(AuthRepoImpl(getIt()));
   getIt.registerSingleton<HomeRepo>(HomeRepoImpl(getIt()));
   getIt.registerSingleton<ProductsRepo>(ProductsRepoImpl(getIt()));
+  getIt.registerSingleton<CartRepo>(CartRepoImpl(getIt()));
 }
 
 void _registerFactory() {
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt()));
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
   getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
+  getIt.registerFactory<CartCubit>(() => CartCubit(getIt()));
 }
