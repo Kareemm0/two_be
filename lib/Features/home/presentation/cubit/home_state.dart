@@ -49,3 +49,11 @@ final class FavoriteSuccessState extends HomeState {
 
   const FavoriteSuccessState(this.favoriteList);
 }
+
+final class HomeSucssessState extends HomeState {}
+
+final class HomeFailureState extends HomeState {
+  final String message;
+
+  const HomeFailureState(this.message);
+}

@@ -18,6 +18,21 @@ class HomeCubit extends Cubit<HomeState> {
 
   Set<String> favoriteList = {};
 
+  Future<void> loadData() async {
+    emit(HomeLoadingState());
+    try {
+      await Future.wait([
+        getCategory(),
+        getBanners(),
+      ]);
+
+      startAutoSlide();
+      emit(HomeSucssessState());
+    } catch (e) {
+      emit(HomeFailureState(e.toString()));
+    }
+  }
+
   Future<void> favorite({required String productId}) async {
     emit(HomeLoadingState());
     final result = await _repo.favorite(productId: productId);
