@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:two_be/Features/cart/presentation/widget/custom_cart_item.dart';
 import 'package:two_be/Features/categories/presentation/widget/custom_header_and_icon.dart';
 import 'package:two_be/core/routes/routes.dart';
-import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/widgets/custom_app_text.dart';
-import '../../../../core/utils/app_colors.dart';
+import 'package:two_be/di.dart';
+import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_sizes.dart';
-import '../../../../core/utils/app_text_style.dart';
-import '../widget/custom_delete_and_plus_and_minus.dart';
+import '../../../../core/widgets/aimated_loader.dart';
 import '../widget/custom_order_sammery_details.dart';
 
 class CartScreen extends StatelessWidget {
@@ -15,58 +17,66 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-      child: Column(
-        children: [
-          CustomHeaderAndIcon(title: "السلة"),
-          Expanded(
-            child: ListView.separated(
-                itemBuilder: (context, index) => Container(
-                    padding: EdgeInsets.only(left: 16),
-                    decoration: BoxDecoration(
-                      color: AppColors.geryF,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          spacing: 16,
-                          children: [
-                            Image.asset(AppImages.watch),
-                            Column(
-                              spacing: 16,
-                              children: [
-                                Text("ساعة", style: AppTextStyle.style16),
-                                Text("بوما", style: AppTextStyle.style14),
-                                Text(
-                                  "40\$",
-                                  style: AppTextStyle.style14
-                                      .copyWith(color: AppColors.primaryColor),
+    return BlocProvider(
+      create: (context) => CartCubit(getIt()..getCart()),
+      child: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          final cubit = context.read<CartCubit>();
+          return Scaffold(
+              body: state is AddToCartLoadingState
+                  ? AimatedLoader(animation: AppImages.loading)
+                  : cubit.cart.isEmpty
+                      ? AimatedLoader(animation: AppImages.emptyList)
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 40),
+                          child: Column(
+                            children: [
+                              CustomHeaderAndIcon(title: "السلة"),
+                              Expanded(
+                                child: ListView.separated(
+                                  itemBuilder: (context, index) =>
+                                      CustomCartItem(
+                                    image: cubit
+                                                .cart[index]
+                                                .items?[index]
+                                                .images?[index]
+                                                .src
+                                                ?.isNotEmpty ==
+                                            true
+                                        ? cubit.cart[index].items![index]
+                                                .images![index].src ??
+                                            ""
+                                        : "",
+                                    name:
+                                        cubit.cart[index].items?[index].name ??
+                                            "",
+                                    price: "",
+                                  ),
+                                  separatorBuilder: (context, index) =>
+                                      height(16),
+                                  itemCount: cubit.cart.length,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        CustomDeleteAndPlusAndMinus(),
-                      ],
-                    )),
-                separatorBuilder: (context, index) => height(16),
-                itemCount: 3),
-          ),
-          CustomOrderSammeryDetails(),
-          height(8),
-          CustomAppButton(
-            text: "تأكيد الطلب",
-            onPressed: () {
-              context.push(Routes.orderSummary);
-            },
-            radius: 30,
-          ),
-        ],
+                              ),
+                              Visibility(
+                                  visible: cubit.cart.isNotEmpty,
+                                  child: CustomOrderSammeryDetails()),
+                              height(8),
+                              Visibility(
+                                visible: cubit.cart.isNotEmpty,
+                                child: CustomAppButton(
+                                  text: "تأكيد الطلب",
+                                  onPressed: () {
+                                    context.push(Routes.orderSummary);
+                                  },
+                                  radius: 30,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ));
+        },
       ),
-    ));
+    );
   }
 }

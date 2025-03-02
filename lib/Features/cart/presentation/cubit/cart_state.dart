@@ -20,3 +20,13 @@ final class AddToCartFailureState extends CartState {
   final String message;
   const AddToCartFailureState(this.message);
 }
+
+final class GetCartFailureState extends CartState {
+  final String message;
+  const GetCartFailureState(this.message);
+}
+
+final class GetCartSuccessState extends CartState {
+  final List<CartModel> cart;
+  const GetCartSuccessState(this.cart);
+}

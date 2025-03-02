@@ -21,4 +21,14 @@ class CartSourceImpl implements CartSource {
       rethrow;
     }
   }
+
+  @override
+  Future<Map<String, dynamic>> getCart() async {
+    try {
+      final response = await _dio.get(EndPoints.carts);
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

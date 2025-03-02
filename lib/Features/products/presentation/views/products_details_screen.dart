@@ -123,7 +123,8 @@ class ProductsDetailsScreen extends StatelessWidget {
                               showToast(
                                   message: state.message,
                                   backgroundColor: AppColors.green);
-                              context.push(Routes.bottomNavigationBar);
+                              context
+                                  .pushReplacement(Routes.bottomNavigationBar);
                             } else if (state is AddToCartFailureState) {
                               showToast(
                                   message: state.message,

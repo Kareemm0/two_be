@@ -47,7 +47,7 @@ class CustomProductListView extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Image.network(image),
+                  child: Image.network(image, fit: BoxFit.fill),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
