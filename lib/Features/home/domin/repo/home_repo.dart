@@ -7,6 +7,5 @@ import 'package:two_be/core/network/error/failure.dart';
 abstract class HomeRepo {
   Future<Either<Failure, List<CategoryModel>>> getCategory();
   Future<Either<Failure, List<BannersModel>>> getBanners();
-  Future<Either<Failure, List<FavoriteModel>>> favorite(
-      {required String productId});
+  Future<Either<Failure, FavoriteModel>> favorite({required String productId});
 }

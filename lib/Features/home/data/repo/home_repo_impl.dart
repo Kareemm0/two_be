@@ -45,17 +45,17 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<Either<Failure, List<FavoriteModel>>> favorite(
+  Future<Either<Failure, FavoriteModel>> favorite(
       {required String productId}) async {
     try {
       final reponse = await _source.favorite(productId: productId);
       if (reponse['favorites'] == null) {
         return Left(ServerFailure('No Data Found'));
       }
-      final List<dynamic> favorites = reponse['favorites'];
-      final List<FavoriteModel> favorite =
-          favorites.map((json) => FavoriteModel.fromJson(json)).toList();
-      return Right(favorite);
+      // final List<dynamic> favorites = reponse;
+      // final List<FavoriteModel> favorite =
+      //     favorites.map((json) => FavoriteModel.fromJson(json)).toList();
+      return Right(FavoriteModel.fromJson(reponse));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

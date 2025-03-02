@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:two_be/Features/cart/data/model/cart_model/cart_model.dart';
 import 'package:two_be/Features/cart/data/source/base/cart_source.dart';
 import 'package:two_be/core/network/error/failure.dart';
-import '../../domin/repo/cart_repo.dart';
+import '../domin/repo/cart_repo.dart';
 
 class CartRepoImpl implements CartRepo {
   final CartSource _source;
