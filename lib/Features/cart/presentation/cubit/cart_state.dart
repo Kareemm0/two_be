@@ -20,3 +20,30 @@ final class AddToCartFailureState extends CartState {
   final String message;
   const AddToCartFailureState(this.message);
 }
+
+final class GetCartFailureState extends CartState {
+  final String message;
+  const GetCartFailureState(this.message);
+}
+
+final class GetCartSuccessState extends CartState {
+  final List<CartModel> cart;
+  const GetCartSuccessState(this.cart);
+}
+
+final class CreateOrderLoadingState extends CartState {}
+
+final class CreateOrderSuccessState extends CartState {}
+
+final class CreateOrderFailureState extends CartState {
+  final String message;
+  const CreateOrderFailureState(this.message);
+}
+
+final class PaymentSuccessState extends CartState {}
+
+final class PaymentFailureState extends CartState {
+  final Map<String, dynamic> paymentStatusResponse;
+
+  const PaymentFailureState(this.paymentStatusResponse);
+}

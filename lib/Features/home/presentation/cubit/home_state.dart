@@ -41,3 +41,19 @@ final class GetBannersSuccessState extends HomeState {
 }
 
 final class GetBannersFailureState extends HomeState {}
+
+final class FavoriteFailureState extends HomeState {}
+
+final class FavoriteSuccessState extends HomeState {
+  final Set<String> favoriteList;
+
+  const FavoriteSuccessState(this.favoriteList);
+}
+
+final class HomeSucssessState extends HomeState {}
+
+final class HomeFailureState extends HomeState {
+  final String message;
+
+  const HomeFailureState(this.message);
+}

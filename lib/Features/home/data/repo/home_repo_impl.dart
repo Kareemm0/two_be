@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:two_be/Features/home/data/models/Favorite/favorite_model.dart';
 import 'package:two_be/Features/home/data/models/banners_model/banners_model.dart';
 import 'package:two_be/Features/home/data/models/category_model/category_model/category_model.dart';
 import 'package:two_be/Features/home/data/source/base/home_source.dart';
@@ -38,6 +39,23 @@ class HomeRepoImpl implements HomeRepo {
           .map((json) => BannersModel.fromJson(json as Map<String, dynamic>))
           .toList();
       return Right(banner);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, FavoriteModel>> favorite(
+      {required String productId}) async {
+    try {
+      final reponse = await _source.favorite(productId: productId);
+      if (reponse['favorites'] == null) {
+        return Left(ServerFailure('No Data Found'));
+      }
+      // final List<dynamic> favorites = reponse;
+      // final List<FavoriteModel> favorite =
+      //     favorites.map((json) => FavoriteModel.fromJson(json)).toList();
+      return Right(FavoriteModel.fromJson(reponse));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

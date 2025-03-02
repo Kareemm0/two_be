@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:two_be/core/utils/app_images.dart';
-
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_style.dart';
 
@@ -24,28 +21,15 @@ class CustomCategoryListView extends StatelessWidget {
         children: [
           Flexible(
             flex: 4,
-            child: Stack(
-              children: [
-                Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Image.network(image),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(AppImages.heart),
-                )
-              ],
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Image.network(image),
             ),
           ),
           Flexible(child: Text(categoryName, style: AppTextStyle.style16)),
-          // Flexible(
-          //   child: Text("40\$",
-          //       style: AppTextStyle.style14
-          //           .copyWith(color: AppColors.primaryColor)),
-          // ),
         ],
       ),
     );

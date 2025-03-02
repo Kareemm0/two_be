@@ -5,6 +5,10 @@ import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 
+import '../../../../core/cache/save_user_info.dart';
+import '../../../../core/service/on_boarding_service.dart';
+import '../../../Auth/Data/Model/user.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -15,11 +19,20 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   bool _isCentered = false;
   bool _isExpanded = false;
+  User? _user;
 
   @override
   void initState() {
     super.initState();
     _startAnimation();
+    load();
+  }
+
+  Future<void> load() async {
+    User? user = await getUserFromSharedPreferences();
+    setState(() {
+      _user = user;
+    });
   }
 
   void _startAnimation() async {
@@ -38,8 +51,18 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateToLogin();
   }
 
-  void _navigateToLogin() {
-    context.pushReplacement(Routes.onBoarding);
+  void _navigateToLogin() async {
+    bool onboardingShown = await OnboardingService().isOnboardingShown();
+
+    if (onboardingShown) {
+      if (_user?.token == null) {
+        context.pushReplacement(Routes.login);
+      } else {
+        context.pushReplacement(Routes.bottomNavigationBar);
+      }
+    } else {
+      context.pushReplacement(Routes.onBoarding);
+    }
   }
 
   @override

@@ -16,10 +16,39 @@ class HomeCubit extends Cubit<HomeState> {
   List<CategoryModel> categories = [];
   List<BannersModel> banners = [];
 
-  // final List<String> imageUrls = [
-  //   AppImages.slider,
-  //   AppImages.slider,
-  // ];
+  Set<String> favoriteList = {};
+
+  Future<void> loadData() async {
+    emit(HomeLoadingState());
+    try {
+      await Future.wait([
+        getCategory(),
+        getBanners(),
+      ]);
+
+      startAutoSlide();
+      emit(HomeSucssessState());
+    } catch (e) {
+      emit(HomeFailureState(e.toString()));
+    }
+  }
+
+  Future<void> favorite({required String productId}) async {
+    emit(HomeLoadingState());
+    final result = await _repo.favorite(productId: productId);
+
+    result.fold(
+      (l) => emit(FavoriteFailureState()),
+      (r) {
+        if (favoriteList.contains(productId)) {
+          favoriteList.remove(productId);
+        } else {
+          favoriteList.add(productId);
+        }
+        emit(FavoriteSuccessState(favoriteList));
+      },
+    );
+  }
 
   void startAutoSlide() {
     Timer.periodic(Duration(seconds: 3), (Timer timer) {

@@ -9,4 +9,5 @@ class Routes {
   static String productDetails = '/productDetails';
   static String orderSummary = '/orderSummary';
   static String forgetPasswordScreen = '/forgetPasswordScreen';
+  static String notificationScreen = '/notificationScreen';
 }

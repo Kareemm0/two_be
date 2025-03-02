@@ -3,4 +3,7 @@ abstract class CartSource {
     required String productId,
     int quantity = 1,
   });
+  Future<Map<String, dynamic>> getCart();
+
+  Future<Map<String, dynamic>> createOrder();
 }
