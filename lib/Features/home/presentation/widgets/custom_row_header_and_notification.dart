@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:two_be/core/extension/extension.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
@@ -41,7 +44,9 @@ class CustomRowHeaderAndNotification extends StatelessWidget {
         width(0),
         CustomIconContainer(
           assetName: AppImages.notification,
-        ),
+        ).onTap(() {
+          context.push(Routes.notificationScreen);
+        }),
       ],
     );
   }

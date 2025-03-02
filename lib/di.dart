@@ -11,6 +11,8 @@ import 'package:two_be/Features/home/data/repo/home_repo_impl.dart';
 import 'package:two_be/Features/home/data/source/impl/home_source_impl.dart';
 import 'package:two_be/Features/home/domin/repo/home_repo.dart';
 import 'package:two_be/Features/home/presentation/cubit/home_cubit.dart';
+import 'package:two_be/Features/notifications/data/source/base/notification_source.dart';
+import 'package:two_be/Features/notifications/data/source/impl/notification_source_impl.dart';
 import 'package:two_be/Features/products/data/source/base/products_source.dart';
 import 'package:two_be/Features/products/data/source/impl/products_source_impl.dart';
 import 'package:two_be/Features/products/domin/products_repo.dart';
@@ -22,6 +24,9 @@ import 'Features/cart/domin/repo/cart_repo.dart';
 import 'Features/cart/presentation/cubit/cart_cubit.dart';
 import 'Features/cart/data/repo/cart_repo_impl.dart';
 import 'Features/home/data/source/base/home_source.dart';
+import 'Features/notifications/data/repo/notification_repo_impl.dart';
+import 'Features/notifications/domin/repo/notification_repo.dart';
+import 'Features/notifications/presentation/cubit/notification_cubit.dart';
 import 'Features/products/data/domin/products_repo_impl.dart';
 import 'core/constant/end_points.dart';
 import 'core/network/dio/base_dio.dart';
@@ -73,6 +78,7 @@ void _registerDataSources() {
   getIt.registerSingleton<HomeSource>(HomeSourceImpl(getIt()));
   getIt.registerSingleton<ProductsSource>(ProductsSourceImpl(getIt()));
   getIt.registerSingleton<CartSource>(CartSourceImpl(getIt()));
+  getIt.registerSingleton<NotificationSource>(NotificationSourceImpl(getIt()));
 }
 
 void _registerRepos() {
@@ -80,6 +86,7 @@ void _registerRepos() {
   getIt.registerSingleton<HomeRepo>(HomeRepoImpl(getIt()));
   getIt.registerSingleton<ProductsRepo>(ProductsRepoImpl(getIt()));
   getIt.registerSingleton<CartRepo>(CartRepoImpl(getIt()));
+  getIt.registerSingleton<NotificationRepo>(NotificationRepoImpl(getIt()));
 }
 
 void _registerFactory() {
@@ -87,4 +94,5 @@ void _registerFactory() {
   getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
   getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
   getIt.registerFactory<CartCubit>(() => CartCubit(getIt()));
+  getIt.registerFactory<NotificationCubit>(() => NotificationCubit(getIt()));
 }

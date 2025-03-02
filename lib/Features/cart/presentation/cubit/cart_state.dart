@@ -39,3 +39,11 @@ final class CreateOrderFailureState extends CartState {
   final String message;
   const CreateOrderFailureState(this.message);
 }
+
+final class PaymentSuccessState extends CartState {}
+
+final class PaymentFailureState extends CartState {
+  final Map<String, dynamic> paymentStatusResponse;
+
+  const PaymentFailureState(this.paymentStatusResponse);
+}

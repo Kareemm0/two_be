@@ -12,4 +12,5 @@ class EndPoints {
   static String carts = "/wp-json/wc/store/v1/cart";
   static String favorite = "/wp-json/custom/v1/add-to-favorites";
   static String createOrder = "/wp-json/wc/v3/orders";
+  static String notification = "/wp-json/custom/v1/notifications";
 }

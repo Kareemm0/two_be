@@ -25,51 +25,42 @@ class CartScreen extends StatelessWidget {
           return Scaffold(
               body: state is AddToCartLoadingState
                   ? AimatedLoader(animation: AppImages.loading)
-                  : cubit.cart.isEmpty
-                      ? AimatedLoader(animation: AppImages.emptyList)
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 40),
-                          child: Column(
-                            children: [
-                              CustomHeaderAndIcon(title: "السلة"),
-                              Expanded(
-                                child: ListView.separated(
-                                  itemBuilder: (context, index) =>
-                                      CustomCartItem(
-                                    image: cubit
-                                                .cart[index]
-                                                .items?[index]
-                                                .images?[index]
-                                                .src
-                                                ?.isNotEmpty ==
-                                            true
-                                        ? cubit.cart[index].items![index]
-                                                .images![index].src ??
-                                            ""
-                                        : "",
-                                    name:
-                                        cubit.cart[index].items?[index].name ??
-                                            "",
-                                    price: "",
-                                  ),
-                                  separatorBuilder: (context, index) =>
-                                      height(16),
-                                  itemCount: cubit.cart.length,
-                                ),
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 40),
+                      child: Column(
+                        children: [
+                          CustomHeaderAndIcon(title: "السلة"),
+                          Expanded(
+                            child: ListView.separated(
+                              itemBuilder: (context, index) => CustomCartItem(
+                                image: cubit.cart[index].items?[index]
+                                            .images?[index].src?.isNotEmpty ==
+                                        true
+                                    ? cubit.cart[index].items![index]
+                                            .images![index].src ??
+                                        ""
+                                    : "",
+                                name:
+                                    cubit.cart[index].items?[index].name ?? "",
+                                price: "",
                               ),
-                              CustomOrderSammeryDetails(),
-                              height(8),
-                              CustomAppButton(
-                                text: "تأكيد الطلب",
-                                onPressed: () {
-                                  context.push(Routes.orderSummary);
-                                },
-                                radius: 30,
-                              ),
-                            ],
+                              separatorBuilder: (context, index) => height(16),
+                              itemCount: cubit.cart.length,
+                            ),
                           ),
-                        ));
+                          CustomOrderSammeryDetails(),
+                          height(8),
+                          CustomAppButton(
+                            text: "تأكيد الطلب",
+                            onPressed: () {
+                              context.push(Routes.orderSummary);
+                            },
+                            radius: 30,
+                          ),
+                        ],
+                      ),
+                    ));
         },
       ),
     );

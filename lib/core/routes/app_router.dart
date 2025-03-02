@@ -5,6 +5,7 @@ import 'package:two_be/Features/bottom_nav_bar/presentation/view/bottom_nav_bar_
 import 'package:two_be/Features/cart/presentation/views/order_summary_screen.dart';
 import 'package:two_be/Features/categories/presentation/views/categories_screen.dart';
 import 'package:two_be/Features/home/data/models/category_model/category_model/category_model.dart';
+import 'package:two_be/Features/notifications/presentation/views/notification_screen.dart';
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_screen.dart';
@@ -61,5 +62,9 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: Routes.forgetPasswordScreen,
     builder: (ctx, state) => ForgetPasswordScreen(),
+  ),
+  GoRoute(
+    path: Routes.notificationScreen,
+    builder: (ctx, state) => NotificationScreen(),
   )
 ]);

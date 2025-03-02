@@ -29,7 +29,7 @@ class OrderSummaryScreen extends StatelessWidget {
             showToast(
                 message: "تم انشاء الطلب بنجاح",
                 backgroundColor: AppColors.green);
-            context.pushReplacement(Routes.bottomNavigationBar);
+            // context.pushReplacement(Routes.bottomNavigationBar);
           } else if (state is CreateOrderFailureState) {
             showToast(message: state.message, backgroundColor: AppColors.redED);
           }
