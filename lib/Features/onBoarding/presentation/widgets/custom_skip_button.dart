@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/routes.dart';
+import '../../../../core/service/on_boarding_service.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomVisibleSkipButton extends StatelessWidget {
@@ -23,7 +24,7 @@ class CustomVisibleSkipButton extends StatelessWidget {
           : true,
       child: TextButton(
         onPressed: () async {
-          //  await OnboardingService().markOnboardingAsShown();
+          await OnboardingService().markOnboardingAsShown();
           log("OnBording Status Save");
           context.pushReplacement(Routes.login);
         },

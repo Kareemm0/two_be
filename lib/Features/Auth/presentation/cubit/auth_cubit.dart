@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:two_be/core/cache/save_user_info.dart';
 import '../../Data/Model/countries_model.dart';
 import '../../domian/repo/auth_repo.dart';
 import 'auth_state.dart';
@@ -47,7 +48,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       result.fold(
         (l) => emit(LoginFailedState(l.message)),
-        (r) => emit(LoginSuccessState(r)),
+        (r) async {
+          await saveUserToSharedPreferences(r);
+          emit(LoginSuccessState(r));
+        },
       );
     }
   }
@@ -68,7 +72,10 @@ class AuthCubit extends Cubit<AuthState> {
 
       result.fold(
         (l) => emit(RegisterFailedState(l.message)),
-        (r) => emit(RegisterSuccessState(r)),
+        (r) async {
+          await saveUserToSharedPreferences(r);
+          emit(RegisterSuccessState(r));
+        },
       );
     }
   }

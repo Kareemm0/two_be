@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/onBoarding/presentation/widgets/custom_page_view_body.dart';
 import '../../../../core/routes/routes.dart';
+import '../../../../core/service/on_boarding_service.dart';
 import '../../data/on_baording_model.dart';
 import '../widgets/custom_skip_button.dart';
 
@@ -50,6 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     if (pageController.hasClients) {
                       if (pageController.page!.toInt() ==
                           onBoarding.length - 1) {
+                        await OnboardingService().markOnboardingAsShown();
                         context.pushReplacement(Routes.login);
                       } else {
                         pageController.nextPage(
