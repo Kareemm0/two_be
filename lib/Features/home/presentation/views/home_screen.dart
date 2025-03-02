@@ -7,6 +7,7 @@ import 'package:two_be/Features/home/presentation/widgets/custom_row_text_catego
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/routes/routes.dart';
+import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/di.dart';
@@ -164,6 +165,22 @@ class HomeScreen extends StatelessWidget {
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
                                             return CustomProductListView(
+                                              color: cubit.favoriteList
+                                                      .contains(
+                                                          categoryProducts[
+                                                                  index]
+                                                              .id
+                                                              .toString())
+                                                  ? AppColors.redED
+                                                  : AppColors.grey8,
+                                              onpress: () {
+                                                cubit.favorite(
+                                                  productId:
+                                                      categoryProducts[index]
+                                                          .id
+                                                          .toString(),
+                                                );
+                                              },
                                               price: categoryProducts[index]
                                                       .price ??
                                                   "",

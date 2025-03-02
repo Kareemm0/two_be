@@ -31,4 +31,17 @@ class HomeSourceImpl implements HomeSource {
       rethrow;
     }
   }
+
+  @override
+  Future<dynamic> favorite({required String productId}) async {
+    try {
+      final response = await _dio.post(
+        EndPoints.favorite,
+        data: {"product_id": productId},
+      );
+      return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
