@@ -9,6 +9,7 @@ import 'package:two_be/Features/notifications/presentation/views/notification_sc
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_screen.dart';
+import 'package:two_be/Features/profile/presentation/view/profile_info_screen.dart';
 import 'package:two_be/core/routes/routes.dart';
 import '../../Features/Auth/presentation/view/forget_password_screen.dart';
 import '../../Features/splash/presentation/view/splash_screen.dart';
@@ -67,5 +68,9 @@ final appRouter = GoRouter(navigatorKey: navigatorKey, routes: [
   GoRoute(
     path: Routes.notificationScreen,
     builder: (ctx, state) => NotificationScreen(),
-  )
+  ),
+  GoRoute(
+    path: Routes.profileInfoScreen,
+    builder: (ctx, state) => ProfileInfoScreen(),
+  ),
 ]);
