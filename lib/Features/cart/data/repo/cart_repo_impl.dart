@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:two_be/Features/cart/data/model/cart_model/cart_model.dart';
 import 'package:two_be/Features/cart/data/model/order/order_model/order_model.dart';
@@ -27,17 +29,14 @@ class CartRepoImpl implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, List<CartModel>>> getCart() async {
+  Future<Either<Failure, CartModel>> getCart() async {
     try {
       final response = await _source.getCart();
       if (response['items'] == null) {
         return Left(ServerFailure("No Data Found"));
       }
-      final List<dynamic> carts = response['items'];
-      final List<CartModel> cart = carts
-          .map((json) => CartModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-      return Right(cart);
+      log("Response cart is $response");
+      return Right(CartModel.fromJson(response));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

@@ -27,7 +27,7 @@ final class GetCartFailureState extends CartState {
 }
 
 final class GetCartSuccessState extends CartState {
-  final List<CartModel> cart;
+  final CartModel cart;
   const GetCartSuccessState(this.cart);
 }
 

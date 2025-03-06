@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
-
 import 'billing_address.dart';
-import 'extensions.dart';
 import 'item.dart';
 import 'shipping_address.dart';
 import 'shipping_rate.dart';
@@ -16,15 +14,15 @@ class CartModel extends Equatable {
   final BillingAddress? billingAddress;
   final bool? needsPayment;
   final bool? needsShipping;
-  final List<String>? paymentRequirements;
+  final List<dynamic>? paymentRequirements;
   final bool? hasCalculatedShipping;
   final List<ShippingRate>? shippingRates;
   final int? itemsCount;
   final int? itemsWeight;
   final List<dynamic>? crossSells;
   final List<dynamic>? errors;
-  final List<String>? paymentMethods;
-  final Extensions? extensions;
+  final List<dynamic>? paymentMethods;
+  //final Extensions? extensions;
 
   const CartModel({
     this.items,
@@ -43,7 +41,7 @@ class CartModel extends Equatable {
     this.crossSells,
     this.errors,
     this.paymentMethods,
-    this.extensions,
+    //  this.extensions,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
@@ -65,7 +63,7 @@ class CartModel extends Equatable {
                 json['billing_address'] as Map<String, dynamic>),
         needsPayment: json['needs_payment'] as bool?,
         needsShipping: json['needs_shipping'] as bool?,
-        paymentRequirements: json['payment_requirements'] as List<String>?,
+        paymentRequirements: json['payment_requirements'],
         hasCalculatedShipping: json['has_calculated_shipping'] as bool?,
         shippingRates: (json['shipping_rates'] as List<dynamic>?)
             ?.map((e) => ShippingRate.fromJson(e as Map<String, dynamic>))
@@ -74,10 +72,10 @@ class CartModel extends Equatable {
         itemsWeight: json['items_weight'] as int?,
         crossSells: json['cross_sells'] as List<dynamic>?,
         errors: json['errors'] as List<dynamic>?,
-        paymentMethods: json['payment_methods'] as List<String>?,
-        extensions: json['extensions'] == null
-            ? null
-            : Extensions.fromJson(json['extensions'] as Map<String, dynamic>),
+        paymentMethods: json['payment_methods'],
+        // extensions: json['extensions'] == null
+        //     ? null
+        //     : Extensions.fromJson(json['extensions'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,7 +95,7 @@ class CartModel extends Equatable {
         'cross_sells': crossSells,
         'errors': errors,
         'payment_methods': paymentMethods,
-        'extensions': extensions?.toJson(),
+        //  'extensions': extensions?.toJson(),
       };
 
   @override
@@ -119,7 +117,7 @@ class CartModel extends Equatable {
       crossSells,
       errors,
       paymentMethods,
-      extensions,
+      // extensions,
     ];
   }
 }

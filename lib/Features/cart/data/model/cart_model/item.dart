@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-
-import 'extensions.dart';
 import 'image.dart';
 import 'prices.dart';
 import 'quantity_limits.dart';
@@ -27,7 +25,7 @@ class Item extends Equatable {
   final Prices? prices;
   final Totals? totals;
   final String? catalogVisibility;
-  final Extensions? extensions;
+  // final Extensions? extensions;
 
   const Item({
     this.key,
@@ -50,7 +48,7 @@ class Item extends Equatable {
     this.prices,
     this.totals,
     this.catalogVisibility,
-    this.extensions,
+    //this.extensions,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
@@ -83,9 +81,9 @@ class Item extends Equatable {
             ? null
             : Totals.fromJson(json['totals'] as Map<String, dynamic>),
         catalogVisibility: json['catalog_visibility'] as String?,
-        extensions: json['extensions'] == null
-            ? null
-            : Extensions.fromJson(json['extensions'] as Map<String, dynamic>),
+        // extensions: json['extensions'] == null
+        //     ? null
+        //     : Extensions.fromJson(json['extensions'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -109,7 +107,7 @@ class Item extends Equatable {
         'prices': prices?.toJson(),
         'totals': totals?.toJson(),
         'catalog_visibility': catalogVisibility,
-        'extensions': extensions?.toJson(),
+        // 'extensions': extensions?.toJson(),
       };
 
   @override
@@ -135,7 +133,7 @@ class Item extends Equatable {
       prices,
       totals,
       catalogVisibility,
-      extensions,
+      //  extensions,
     ];
   }
 }

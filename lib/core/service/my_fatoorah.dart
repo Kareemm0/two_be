@@ -9,8 +9,9 @@ class MyFatoorahService {
   MyFatoorahService({required this.apiKey, this.isTest = true});
 
   //! Base URL for MyFatoorah API
-  String get baseUrl =>
-      isTest ? 'https://apitest.myfatoorah.com' : 'https://api.myfatoorah.com';
+  String get baseUrl => isTest
+      ? 'https://apitest-sa.myfatoorah.com'
+      : 'https://api-sa.myfatoorah.com';
 
   //! Headers for API requests
   Map<String, String> get headers => {
@@ -23,8 +24,15 @@ class MyFatoorahService {
       double invoiceAmount, String currencyIso) async {
     final url = Uri.parse('$baseUrl/v2/SendPayment');
     final body = jsonEncode({
-      'InvoiceAmount': invoiceAmount,
-      'CurrencyIso': currencyIso,
+      "InvoiceValue": 100,
+      "CustomerName": "Ahmed Elgamal",
+      "CustomerEmail": "kareemmhammed53@gmail.com",
+      "CustomerMobile": "01026984562",
+      "CallBackUrl": "https://yourwebsite.com/success",
+      "ErrorUrl": "https://yourwebsite.com/error",
+      "Language": "AR", // أو "EN"
+      "DisplayCurrencyIso": currencyIso,
+      "NotificationOption": "EML"
     });
 
     final response = await http.post(url, headers: headers, body: body);

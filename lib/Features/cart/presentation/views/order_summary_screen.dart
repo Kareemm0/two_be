@@ -25,6 +25,13 @@ class OrderSummaryScreen extends StatelessWidget {
       create: (context) => CartCubit(getIt()),
       child: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
+          if (state is PaymentSuccessState) {
+            showToast(
+              message: "تم ارسال رابط الدفع علي البريد الالكتروني الخاص بك",
+              backgroundColor: AppColors.green,
+            );
+            context.pushReplacement(Routes.bottomNavigationBar);
+          }
           if (state is CreateOrderSuccessState) {
             showToast(
                 message: "تم انشاء الطلب بنجاح",

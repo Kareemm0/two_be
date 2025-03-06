@@ -18,7 +18,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CartCubit(getIt()..getCart()),
+      create: (context) => CartCubit(getIt())..getCart(),
       child: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           final cubit = context.read<CartCubit>();
@@ -34,19 +34,18 @@ class CartScreen extends StatelessWidget {
                           Expanded(
                             child: ListView.separated(
                               itemBuilder: (context, index) => CustomCartItem(
-                                image: cubit.cart[index].items?[index]
-                                            .images?[index].src?.isNotEmpty ==
+                                image: cubit.cart?.items?[index].images?[index]
+                                            .src?.isNotEmpty ==
                                         true
-                                    ? cubit.cart[index].items![index]
-                                            .images![index].src ??
+                                    ? cubit.cart?.items![index].images![index]
+                                            .src ??
                                         ""
                                     : "",
-                                name:
-                                    cubit.cart[index].items?[index].name ?? "",
+                                name: cubit.cart?.items?[index].name ?? "",
                                 price: "",
                               ),
                               separatorBuilder: (context, index) => height(16),
-                              itemCount: cubit.cart.length,
+                              itemCount: cubit.cart?.items?.length ?? 0,
                             ),
                           ),
                           CustomOrderSammeryDetails(),

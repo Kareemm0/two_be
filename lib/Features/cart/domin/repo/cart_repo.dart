@@ -9,7 +9,7 @@ abstract class CartRepo {
     int quantity = 1,
   });
 
-  Future<Either<Failure, List<CartModel>>> getCart();
+  Future<Either<Failure, CartModel>> getCart();
 
   Future<Either<Failure, OrderModel>> createOrder();
 }
