@@ -12,8 +12,9 @@ import 'package:two_be/Features/products/presentation/views/products_screen.dart
 import 'package:two_be/core/routes/routes.dart';
 import '../../Features/Auth/presentation/view/forget_password_screen.dart';
 import '../../Features/splash/presentation/view/splash_screen.dart';
+import '../constant/constant.dart';
 
-final appRouter = GoRouter(routes: [
+final appRouter = GoRouter(navigatorKey: navigatorKey, routes: [
   GoRoute(
     path: Routes.splash,
     builder: (ctx, state) => SplashScreen(),
