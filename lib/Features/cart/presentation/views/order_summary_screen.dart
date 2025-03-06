@@ -1,23 +1,47 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:two_be/Features/cart/presentation/widget/custom_order_sammery_details.dart';
 import 'package:two_be/Features/categories/presentation/widget/custom_header_and_icon.dart';
 import 'package:two_be/core/functions/show_toast.dart';
-import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/core/widgets/custom_icon_container.dart';
 import 'package:two_be/di.dart';
 
+import '../../../../core/cache/save_user_info.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_app_text.dart';
+import '../../../Auth/Data/Model/user.dart';
 
-class OrderSummaryScreen extends StatelessWidget {
+class OrderSummaryScreen extends StatefulWidget {
   const OrderSummaryScreen({super.key});
+
+  @override
+  State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
+}
+
+class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
+  User? _user;
+
+  Future<void> load() async {
+    User? user = await getUserFromSharedPreferences();
+    setState(() {
+      _user = user;
+    });
+    log("$user");
+    log("${user!.username}");
+  }
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +49,7 @@ class OrderSummaryScreen extends StatelessWidget {
       create: (context) => CartCubit(getIt()),
       child: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
-          if (state is PaymentSuccessState) {
-            showToast(
-              message: "تم ارسال رابط الدفع علي البريد الالكتروني الخاص بك",
-              backgroundColor: AppColors.green,
-            );
-            context.pushReplacement(Routes.bottomNavigationBar);
-          }
-          if (state is CreateOrderSuccessState) {
-            showToast(
-                message: "تم انشاء الطلب بنجاح",
-                backgroundColor: AppColors.green);
-            // context.pushReplacement(Routes.bottomNavigationBar);
-          } else if (state is CreateOrderFailureState) {
+          if (state is CreateOrderFailureState) {
             showToast(message: state.message, backgroundColor: AppColors.redED);
           }
         },
@@ -105,7 +117,11 @@ class OrderSummaryScreen extends StatelessWidget {
                   CustomAppButton(
                     text: "تأكيد الطلب",
                     onPressed: () {
-                      cubit.createOrder();
+                      cubit.createOrder(
+                        context,
+                        customerEmail: _user?.email ?? "",
+                        customerName: _user?.username ?? "",
+                      );
                     },
                     radius: 30,
                   ),

@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:two_be/Features/cart/data/model/order/order_model/order_model.dart';
 import 'package:two_be/Features/cart/domin/repo/cart_repo.dart';
-import 'package:two_be/core/constant/constant.dart';
-import '../../../../core/service/my_fatoorah.dart';
+import 'package:two_be/core/utils/app_colors.dart';
 import '../../data/model/cart_model/cart_model.dart';
+import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
@@ -12,6 +14,15 @@ class CartCubit extends Cubit<CartState> {
   CartCubit(this._repo) : super(CartInitial());
 
   CartModel? cart;
+
+  void setUpActionBar() {
+    MFSDK.setUpActionBar(
+      toolBarTitle: 'TwoBe',
+      toolBarTitleColor: AppColors.secondaryColor.toString(),
+      toolBarBackgroundColor: AppColors.primaryColor.toString(),
+      isShowToolBar: true,
+    );
+  }
 
   Future<void> addToCart({required String productId, int quantity = 1}) async {
     emit(AddToCartLoadingState());
@@ -37,35 +48,92 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  Future<void> createOrder() async {
+  Future<void> createOrder(BuildContext context,
+      {required String customerName, required String customerEmail}) async {
     emit(CreateOrderLoadingState());
 
-    //! Step 1: Create the order
     final result = await _repo.createOrder();
     result.fold(
       (failure) {
         emit(CreateOrderFailureState(failure.message));
       },
       (order) async {
-        //! Step 2: Initialize MyFatoorah service
-        final myFatoorah = MyFatoorahService(
-          apiKey: ftoorhApiKey,
-          isTest: false,
-        );
-
+        setUpActionBar();
         try {
-          //! Step 3: Initiate payment
-          final paymentInitResponse = await myFatoorah.initiatePayment(
-            double.parse(order.total ?? ""),
-            'SAR',
+          await sendPayment(
+            order,
+            customerName: customerName,
+            customerEmail: customerEmail,
           );
-          log('Payment Init Response: $paymentInitResponse');
-          emit(PaymentSuccessState());
+          await initiateAndExecutePayment(order);
         } catch (e) {
-          log("Error: ${e.toString()}");
-          emit(CreateOrderFailureState(e.toString()));
+          emit(CreateOrderFailureState("Error: ${e.toString()}"));
         }
       },
     );
+  }
+
+  Future<void> sendPayment(
+    OrderModel order, {
+    required String customerName,
+    required String customerEmail,
+  }) async {
+    try {
+      MFSendPaymentRequest request = MFSendPaymentRequest();
+      request.customerName = customerName;
+      request.invoiceValue = 50;
+      // order.totalAmount;
+      request.notificationOption = MFNotificationOption.EMAIL;
+      request.customerEmail = customerEmail;
+
+      await MFSDK.sendPayment(request, MFLanguage.ENGLISH).then((value) {
+        log(value.toString());
+        emit(CreateOrderSuccessState());
+      }).catchError((error) {
+        log(error.message);
+        emit(CreateOrderFailureState("Payment failed: ${error.message}"));
+      });
+    } catch (e) {
+      emit(CreateOrderFailureState("Error: ${e.toString()}"));
+    }
+  }
+
+  Future<void> initiateAndExecutePayment(OrderModel order) async {
+    try {
+      MFInitiatePaymentRequest initiateRequest = MFInitiatePaymentRequest(
+        invoiceAmount: 50, // order.totalAmount,
+        currencyIso: MFCurrencyISO.KUWAIT_KWD,
+      );
+
+      final paymentMethods = await MFSDK.initiatePayment(
+        initiateRequest,
+        MFLanguage.ENGLISH,
+      );
+
+      int paymentMethodId = 2;
+
+      MFExecutePaymentRequest executeRequest =
+          MFExecutePaymentRequest(invoiceValue: 50
+              // order.totalAmount,
+              );
+      executeRequest.paymentMethodId = paymentMethodId;
+
+      await MFSDK.executePayment(
+        executeRequest,
+        MFLanguage.ENGLISH,
+        (invoiceId) {
+          // Payment successful
+          log("Payment successful. Invoice ID: $invoiceId");
+          emit(CreateOrderSuccessState());
+        },
+      ).then((value) {
+        log(value.toString());
+      }).catchError((error) {
+        log(error.message);
+        emit(CreateOrderFailureState("Payment failed: ${error.message}"));
+      });
+    } catch (e) {
+      emit(CreateOrderFailureState("Error: ${e.toString()}"));
+    }
   }
 }

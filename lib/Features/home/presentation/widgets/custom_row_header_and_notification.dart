@@ -8,7 +8,10 @@ import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_icon_container.dart';
 
 class CustomRowHeaderAndNotification extends StatelessWidget {
-  const CustomRowHeaderAndNotification({super.key});
+  final String name;
+  final String image;
+  const CustomRowHeaderAndNotification(
+      {super.key, required this.name, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +23,14 @@ class CustomRowHeaderAndNotification extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundImage: AssetImage(
-                AppImages.onbarding1,
-              ),
+              backgroundImage: NetworkImage(image),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("مرحبا"),
                 Text(
-                  "كريم",
+                  name,
                   style: AppTextStyle.style16,
                 ),
               ],
