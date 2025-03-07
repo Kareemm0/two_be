@@ -8,3 +8,15 @@ sealed class ProfileState extends Equatable {
 }
 
 final class ProfileInitial extends ProfileState {}
+
+final class ProfileLoadingState extends ProfileState {}
+
+final class LogoutSuccessState extends ProfileState {
+  final String message;
+  const LogoutSuccessState(this.message);
+}
+
+final class LogoutFailedState extends ProfileState {
+  final String message;
+  const LogoutFailedState(this.message);
+}

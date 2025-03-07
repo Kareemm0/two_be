@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:two_be/Features/profile/presentation/widget/custom_logout_dialog.dart';
 import 'package:two_be/Features/profile/presentation/widget/custom_profile_item.dart';
+import 'package:two_be/core/extension/extension.dart';
+import 'package:two_be/core/functions/show_toast.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/core/utils/app_text_style.dart';
+import 'package:two_be/di.dart';
 import '../../../../core/cache/save_user_info.dart';
 import '../../../Auth/Data/Model/user.dart';
 
@@ -38,8 +43,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(),
-      child: BlocBuilder<ProfileCubit, ProfileState>(
+      create: (context) => ProfileCubit(getIt()),
+      child: BlocConsumer<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is LogoutSuccessState) {
+            showToast(message: state.message, backgroundColor: AppColors.green);
+            context.pushReplacement(Routes.login);
+          } else if (state is LogoutFailedState) {
+            showToast(message: state.message, backgroundColor: AppColors.redED);
+          }
+        },
         builder: (context, state) {
           final cubit = context.read<ProfileCubit>();
           return Scaffold(
@@ -72,7 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "تسجيل الخروج",
                     style:
                         AppTextStyle.style20.copyWith(color: AppColors.redED),
-                  ),
+                  ).onTap(() {
+                    showDialog(
+                        context: context,
+                        builder: (context) => CustomLogoutDialog(
+                              onPressed: () => cubit.logout(),
+                            ));
+                  }),
                 ],
               ),
             ),

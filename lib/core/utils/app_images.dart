@@ -13,6 +13,7 @@ class AppImages {
   static const String profilePic = '${_path}profile.png';
   static const String profilePict = '${_path}profilePic.png';
   static const String per = '${_path}per.jpg';
+  static const String logout = '${_path}logout_logo.png';
 
   //! Vectors Images
 

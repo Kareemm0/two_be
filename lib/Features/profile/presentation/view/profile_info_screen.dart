@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:two_be/Features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/utils/app_colors.dart';
+import 'package:two_be/di.dart';
 import '../../../../core/cache/save_user_info.dart';
 import '../../../../core/functions/validation.dart';
 import '../../../../core/utils/app_sizes.dart';
@@ -44,7 +45,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(),
+      create: (context) => ProfileCubit(getIt()),
       child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           final cubit = context.read<ProfileCubit>();

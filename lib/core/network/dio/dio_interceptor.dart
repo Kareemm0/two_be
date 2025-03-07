@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:go_router/go_router.dart';
+import '../../constant/app_shared_pref_keys.dart';
 import '../../constant/constant.dart';
 import '../../routes/routes.dart';
 import '../../service/shared_pref.dart';
@@ -17,13 +18,14 @@ class DioInterceptor implements Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    //final token = await SharedPref().get(AppSharedPrefrencesKeys.tokenKey);
-    options.headers.remove("Authorization");
+    final token = await SharedPref().get(AppSharedPrefrencesKeys.tokenKey);
+    // options.headers.remove("Authorization");
+    // options.headers["Authorization"] = "Bearer $token";
     log("=======================================");
     log("Request");
     log("url:=> ${options.path}");
     log("content:=> ${options.contentType}");
-    log("headers:=> hasToken:${"token".toString()}");
+    log("headers:=> hasToken:${token.toString()}");
     log("body:=> ${options.data != null ? options.data! : "Data is null"}");
     log("=======================================");
     handler.next(options);
