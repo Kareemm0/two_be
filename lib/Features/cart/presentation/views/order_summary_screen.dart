@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,36 +10,11 @@ import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/core/widgets/custom_icon_container.dart';
 import 'package:two_be/di.dart';
-
-import '../../../../core/cache/save_user_info.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_app_text.dart';
-import '../../../Auth/Data/Model/user.dart';
 
-class OrderSummaryScreen extends StatefulWidget {
+class OrderSummaryScreen extends StatelessWidget {
   const OrderSummaryScreen({super.key});
-
-  @override
-  State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
-}
-
-class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
-  User? _user;
-
-  Future<void> load() async {
-    User? user = await getUserFromSharedPreferences();
-    setState(() {
-      _user = user;
-    });
-    log("$user");
-    log("${user!.username}");
-  }
-
-  @override
-  void initState() {
-    load();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +27,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
           }
         },
         builder: (context, state) {
-          final cubit = context.read<CartCubit>();
+          //  final cubit = context.read<CartCubit>();
           return Scaffold(
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
@@ -117,11 +90,11 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                   CustomAppButton(
                     text: "تأكيد الطلب",
                     onPressed: () {
-                      cubit.createOrder(
-                        context,
-                        customerEmail: _user?.email ?? "",
-                        customerName: _user?.username ?? "",
-                      );
+                      // cubit.createOrder(
+                      //   context,
+                      //   customerEmail: _user?.email ?? "",
+                      //   customerName: _user?.username ?? "",
+                      // );
                     },
                     radius: 30,
                   ),

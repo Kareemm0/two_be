@@ -5,8 +5,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:two_be/Features/profile/domin/repo/profile_repo.dart';
 import 'package:two_be/core/cache/save_user_info.dart';
+import 'package:two_be/core/constant/app_shared_pref_keys.dart';
 import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_images.dart';
 
@@ -62,6 +64,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       (l) => emit(LogoutFailedState(l.message)),
       (r) async {
         await clearUserData();
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove(AppSharedPrefrencesKeys.cookies);
+        log("Cookie is removed ");
         log("User is logged out and cache is cleared");
         emit(LogoutSuccessState(r));
       },

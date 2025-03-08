@@ -46,7 +46,7 @@ class CartModel extends Equatable {
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         items: (json['items'] as List<dynamic>?)
-            ?.map((e) => Item.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => Item.fromJson(e))
             .toList(),
         coupons: json['coupons'] as List<dynamic>?,
         fees: json['fees'] as List<dynamic>?,
