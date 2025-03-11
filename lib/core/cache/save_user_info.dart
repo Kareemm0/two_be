@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:two_be/Features/Auth/Data/Model/user.dart';
 import 'package:two_be/core/constant/app_shared_pref_keys.dart';
@@ -44,3 +45,28 @@ Future<void> clearUserData() async {
   await prefs.remove(AppSharedPrefrencesKeys.user);
   log("Cache is Cleared");
 }
+
+// Future<void> saveCookie(String cookie) async {
+//   final prefs = await SharedPreferences.getInstance();
+//   await prefs.setString(AppSharedPrefrencesKeys.cookies, cookie);
+//   log('Cookie saved: $cookie');
+// }
+
+// Future<String?> getCookie() async {
+//   final prefs = await SharedPreferences.getInstance();
+//   final cookie = prefs.getString('session_cookie');
+//   log('Retrieved cookie: $cookie');
+//   return cookie;
+// }
+
+// Future<void> updateCookieFromResponse(Response response) async {
+//   final headers = response.headers.map;
+//   if (headers.containsKey('Cookie')) {
+//     String? rawCookie = headers['Cookie']?.first;
+//     if (rawCookie != null) {
+//       final sessionCookie = rawCookie.split(';').first;
+//       await saveCookie(sessionCookie);
+//       log('New Cookie Saved: $sessionCookie');
+//     }
+//   }
+// }

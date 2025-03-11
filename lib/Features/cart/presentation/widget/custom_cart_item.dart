@@ -14,8 +14,19 @@ class CustomCartItem extends StatelessWidget {
       required this.name,
       required this.price});
 
+  String getFirstTwoWords(String text) {
+    List<String> words = text.split(' ');
+    if (words.length > 3) {
+      return '${words[0]} ${words[1]} ${words[2]}';
+    } else {
+      return text;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final String displayText = getFirstTwoWords(name);
+
     return Container(
         padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
@@ -28,11 +39,16 @@ class CustomCartItem extends StatelessWidget {
             Row(
               spacing: 16,
               children: [
-                Image.network(image),
+                Image.network(
+                  image,
+                  height: 100,
+                  width: 100,
+                ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 16,
                   children: [
-                    Text(name, style: AppTextStyle.style16),
+                    Text(displayText, style: AppTextStyle.style16),
                     Text(
                       "$price\$",
                       style: AppTextStyle.style14

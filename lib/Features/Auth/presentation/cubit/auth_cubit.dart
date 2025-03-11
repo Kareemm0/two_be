@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:two_be/core/cache/save_user_info.dart';
+import 'package:two_be/core/service/shared_pref.dart';
+import '../../../../core/constant/app_shared_pref_keys.dart';
 import '../../Data/Model/countries_model.dart';
 import '../../domian/repo/auth_repo.dart';
 import 'auth_state.dart';
@@ -49,6 +51,7 @@ class AuthCubit extends Cubit<AuthState> {
       result.fold(
         (l) => emit(LoginFailedState(l.message)),
         (r) async {
+          await SharedPref().set(AppSharedPrefrencesKeys.tokenKey, r.token!);
           await saveUserToSharedPreferences(r);
           emit(LoginSuccessState(r));
         },
@@ -73,6 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
       result.fold(
         (l) => emit(RegisterFailedState(l.message)),
         (r) async {
+          await SharedPref().set(AppSharedPrefrencesKeys.tokenKey, r.token!);
           await saveUserToSharedPreferences(r);
           emit(RegisterSuccessState(r));
         },

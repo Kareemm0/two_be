@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,16 +13,40 @@ import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/di.dart';
+import '../../../../core/cache/save_user_info.dart';
 import '../../../../core/widgets/aimated_loader.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
+import '../../../Auth/Data/Model/user.dart';
 import '../../../products/data/Model/products_model/products_model.dart';
 import '../widgets/custom_category_list_view.dart';
 import '../widgets/custom_dotted_slider.dart';
 import '../widgets/custom_product_list_view.dart';
 import '../widgets/custom_row_header_and_notification.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  User? _user;
+
+  Future<void> load() async {
+    User? user = await getUserFromSharedPreferences();
+    setState(() {
+      _user = user;
+    });
+    log("$user");
+    log("${user!.username}");
+  }
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +89,10 @@ class HomeScreen extends StatelessWidget {
                             const EdgeInsets.only(right: 16, top: 40, left: 16),
                         child: Column(
                           children: [
-                            CustomRowHeaderAndNotification(),
+                            CustomRowHeaderAndNotification(
+                              name: _user?.username ?? "",
+                              image: _user?.avatar ?? "",
+                            ),
                             height(16),
                             CustomSearchBar(
                                 controller: TextEditingController()),

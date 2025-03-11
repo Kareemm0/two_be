@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:two_be/Features/products/data/Model/ProductDetailsModel/product_details/product_details.dart';
 import 'package:two_be/Features/products/data/Model/products_model/products_model.dart';
@@ -12,7 +14,7 @@ class ProductsRepoImpl implements ProductsRepo {
   @override
   Future<Either<Failure, List<ProductsModel>>> getProducts() async {
     try {
-      final response = await _source.getProducts();
+      final response = await _source.getAllProducts();
       if (response.isEmpty) {
         return Left(ServerFailure('No Data Found'));
       }
@@ -20,6 +22,7 @@ class ProductsRepoImpl implements ProductsRepo {
       final List<ProductsModel> product = products
           .map((json) => ProductsModel.fromJson(json as Map<String, dynamic>))
           .toList();
+      log("=================================product: ${product.length}");
       return Right(product);
     } catch (e) {
       return Left(ServerFailure(e.toString()));

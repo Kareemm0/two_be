@@ -50,7 +50,6 @@ class CustomProductItem extends StatelessWidget {
                       spacing: 16,
                       children: [
                         Text(title, style: AppTextStyle.style16),
-                        Text("بوما", style: AppTextStyle.style14),
                         Text(
                           "$price\$",
                           style: AppTextStyle.style14

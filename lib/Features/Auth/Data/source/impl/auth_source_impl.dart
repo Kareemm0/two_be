@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:two_be/Features/Auth/Data/source/base/auth_source.dart';
 import 'package:two_be/core/constant/end_points.dart';
 
+import '../../../../../core/cache/save_user_info.dart';
 import '../../../../../core/network/dio/base_dio.dart';
 
 class AuthSourceImpl implements AuthSource {
@@ -46,7 +47,7 @@ class AuthSourceImpl implements AuthSource {
           },
         ),
       );
-
+      //await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;
@@ -71,6 +72,7 @@ class AuthSourceImpl implements AuthSource {
         "username_or_email": email,
         "password": password,
       });
+      //await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;

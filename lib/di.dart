@@ -17,6 +17,11 @@ import 'package:two_be/Features/products/data/source/base/products_source.dart';
 import 'package:two_be/Features/products/data/source/impl/products_source_impl.dart';
 import 'package:two_be/Features/products/domin/products_repo.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
+import 'package:two_be/Features/profile/data/repo/profile_repo_impl.dart';
+import 'package:two_be/Features/profile/data/source/base/profile_source.dart';
+import 'package:two_be/Features/profile/data/source/impl/profile_source_impl.dart';
+import 'package:two_be/Features/profile/domin/repo/profile_repo.dart';
+import 'package:two_be/Features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:two_be/core/network/dio/dio_client.dart';
 import 'Features/Auth/domian/repo/auth_repo.dart';
 import 'Features/cart/data/source/impl/cart_source_impl.dart';
@@ -48,14 +53,6 @@ Future<void> _registerSingletons() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   BaseOptions options = BaseOptions(
     validateStatus: (status) {
-      // if (status == null) {
-      //   return false;
-      // }
-      // if (status == 422 || status == 302) {
-      //   return true;
-      // } else {
-      //   return status >= 200 && status < 300;
-      // }
       return status != null && status < 500;
     },
     baseUrl: EndPoints.baseurl,
@@ -79,6 +76,7 @@ void _registerDataSources() {
   getIt.registerSingleton<ProductsSource>(ProductsSourceImpl(getIt()));
   getIt.registerSingleton<CartSource>(CartSourceImpl(getIt()));
   getIt.registerSingleton<NotificationSource>(NotificationSourceImpl(getIt()));
+  getIt.registerSingleton<ProfileSource>(ProfileSourceImpl(getIt()));
 }
 
 void _registerRepos() {
@@ -87,6 +85,7 @@ void _registerRepos() {
   getIt.registerSingleton<ProductsRepo>(ProductsRepoImpl(getIt()));
   getIt.registerSingleton<CartRepo>(CartRepoImpl(getIt()));
   getIt.registerSingleton<NotificationRepo>(NotificationRepoImpl(getIt()));
+  getIt.registerSingleton<ProfileRepo>(ProfileRepoImpl(getIt()));
 }
 
 void _registerFactory() {
@@ -95,4 +94,5 @@ void _registerFactory() {
   getIt.registerFactory<ProductsCubit>(() => ProductsCubit(getIt()));
   getIt.registerFactory<CartCubit>(() => CartCubit(getIt()));
   getIt.registerFactory<NotificationCubit>(() => NotificationCubit(getIt()));
+  getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
 }
