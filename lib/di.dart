@@ -53,14 +53,6 @@ Future<void> _registerSingletons() async {
   final SharedPreferences preferences = await SharedPreferences.getInstance();
   BaseOptions options = BaseOptions(
     validateStatus: (status) {
-      // if (status == null) {
-      //   return false;
-      // }
-      // if (status == 422 || status == 302) {
-      //   return true;
-      // } else {
-      //   return status >= 200 && status < 300;
-      // }
       return status != null && status < 500;
     },
     baseUrl: EndPoints.baseurl,
