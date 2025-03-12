@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_state.dart';
@@ -13,6 +16,7 @@ import 'package:two_be/di.dart';
 import '../../../../core/functions/show_toast.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/app_images.dart';
+import '../../../../core/utils/app_sizes.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/aimated_loader.dart';
 import '../widget/custom_product_name_and_review.dart';
@@ -29,6 +33,7 @@ class ProductsDetailsScreen extends StatelessWidget {
       child: BlocBuilder<ProductsCubit, ProductsState>(
         builder: (context, state) {
           final cubit = context.read<ProductsCubit>();
+
           return Scaffold(
             body: state is ProductsLoadingState
                 ? Center(
@@ -42,12 +47,24 @@ class ProductsDetailsScreen extends StatelessWidget {
                             children: [
                               Stack(
                                 children: [
-                                  Image.network(
-                                    width: double.infinity,
-                                    fit: BoxFit.fill,
-                                    cubit.productDetailsById?.images?.first
-                                            .src ??
-                                        "",
+                                  SizedBox(
+                                    height: heightSize(context) * .4,
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: cubit.productDetailsById
+                                                ?.images?.length ??
+                                            0,
+                                        itemBuilder: (context, index) {
+                                          return SizedBox(
+                                            width: widthSize(context),
+                                            child: Image.network(
+                                                width: double.infinity,
+                                                fit: BoxFit.fill,
+                                                cubit.productDetailsById
+                                                        ?.images?[index].src ??
+                                                    ""),
+                                          );
+                                        }),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -81,14 +98,14 @@ class ProductsDetailsScreen extends StatelessWidget {
                                               ?.ratingCount ??
                                           0,
                                     ),
-                                    const SizedBox(height: 12),
+                                    height(12),
                                     Text(
                                       "الوصف",
                                       style: AppTextStyle.style16.copyWith(
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    height(8),
                                     Text(
                                       cubit.productDetailsById?.description ??
                                           "",
@@ -132,22 +149,39 @@ class ProductsDetailsScreen extends StatelessWidget {
                             }
                           },
                           builder: (context, state) {
-                            return Row(
+                            cubit.mfApplePayButton = MFApplePayButton(
+                                applePayStyle: MFApplePayStyle());
+
+                            return Column(
                               children: [
-                                Expanded(
-                                  child: CustomAppButton(
-                                    text: "اضافة للسلة",
-                                    radius: 30,
-                                    onPressed: () => context.read<CartCubit>()
-                                      ..addToCart(productId: id.toString()),
-                                  ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: CustomAppButton(
+                                        text: "اضافة للسلة",
+                                        radius: 30,
+                                        onPressed: () => context
+                                            .read<CartCubit>()
+                                          ..addToCart(productId: id.toString()),
+                                      ),
+                                    ),
+                                    width(16),
+                                    SvgPicture.asset(
+                                      AppImages.cart,
+                                      width: 40,
+                                      height: 40,
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 16),
-                                SvgPicture.asset(
-                                  AppImages.cart,
-                                  width: 40,
-                                  height: 40,
-                                ),
+                                Platform.isIOS == true
+                                    ? SizedBox(
+                                        height: 50,
+                                        child: cubit.mfApplePayButton,
+                                      ).onTap(() {
+                                        cubit.applePayPayment();
+                                      })
+                                    : Container(),
                               ],
                             );
                           },
