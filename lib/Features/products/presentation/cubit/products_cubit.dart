@@ -13,28 +13,66 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<ProductsModel> categoryProducts = [];
   ProductDetails? productDetails;
   ProductDetails? productDetailsById;
+  int perPagecount = 10;
+  int page = 1;
+  bool hasMore = true;
 
   Future<void> getProducts({
     String? category,
+    bool isLoadMore = false,
   }) async {
-    emit(ProductsLoadingState());
+    if (!hasMore && isLoadMore) return;
+    if (!isLoadMore) {
+      page = 1;
+      hasMore = true;
+      products.clear();
+      emit(ProductsLoadingState());
+    } else {
+      emit(ProductsPaginationState());
+    }
 
-    final response = await _repo.getProducts();
+    final response =
+        await _repo.getProducts(page: page, perPagecount: perPagecount);
 
     response.fold(
-      (l) => emit(ProductsFailureState(l.message)),
+      (l) {
+        hasMore = false;
+        emit(ProductsFailureState(l.message));
+      },
       (r) {
-        products.addAll(r);
+        if (r.isEmpty) {
+          hasMore = false;
+        } else {
+          page++;
+          products.addAll(r);
+        }
 
         if (category != null) {
+          log("Filtering products for category: $category");
+
+          for (var product in products) {
+            log("Product: ${product.name}, Categories: ${product.categories?.map((cat) => cat.name).toList()}");
+          }
+
           categoryProducts = products
               .where((product) =>
-                  product.categories!.any((cat) => cat.name == category))
+                  product.categories != null &&
+                  product.categories!.any((cat) =>
+                      cat.name?.toLowerCase() == category.toLowerCase()))
               .toList();
-          log("categoryProducts: ${categoryProducts.length}");
+
+          log("Filtered categoryProducts: ${categoryProducts.length}");
+          for (var product in categoryProducts) {
+            log("Filtered Product: ${product.name}, Categories: ${product.categories?.map((cat) => cat.name).toList()}");
+          }
+
           emit(ProcuctsSuccessState(categoryProducts));
         } else {
           emit(ProcuctsSuccessState(products));
+        }
+
+        if (r.length < perPagecount) {
+          hasMore = false;
         }
       },
     );

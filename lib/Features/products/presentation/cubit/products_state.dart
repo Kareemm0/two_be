@@ -14,6 +14,8 @@ class ProductsInitalState extends ProductsState {}
 
 class ProductsLoadingState extends ProductsState {}
 
+class ProductsPaginationState extends ProductsState {}
+
 class ProcuctsSuccessState extends ProductsState {
   final List<ProductsModel> products;
   const ProcuctsSuccessState(this.products);

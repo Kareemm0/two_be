@@ -9,7 +9,8 @@ class ProductsSourceImpl implements ProductsSource {
 
   ProductsSourceImpl(this._dio);
   @override
-  Future<List> getProducts({int page = 1, int perPagecount = 100}) async {
+  Future<List> getProducts(
+      {required int page, required int perPagecount}) async {
     try {
       final response = await _dio.get(EndPoints.products, queryParameters: {
         perPage: perPagecount,
@@ -21,55 +22,6 @@ class ProductsSourceImpl implements ProductsSource {
     } catch (e) {
       rethrow;
     }
-  }
-
-  @override
-  Future<List<dynamic>> getAllProducts() async {
-    List<dynamic> allProducts = [];
-    int page = 1;
-    bool hasMore = true;
-    const int initialPerPageCount = 100;
-    int perPageCount = initialPerPageCount;
-
-    try {
-      final firstPageProducts =
-          await getProducts(page: page, perPagecount: perPageCount);
-      if (firstPageProducts.isNotEmpty) {
-        allProducts.addAll(firstPageProducts);
-        page++;
-      } else {
-        hasMore = false;
-      }
-    } catch (e) {
-      rethrow;
-    }
-
-    while (hasMore) {
-      try {
-        final futures = List.generate(
-            5, (i) => getProducts(page: page + i, perPagecount: perPageCount));
-        final results = await Future.wait(futures);
-
-        bool emptyPageFound = false;
-        for (final products in results) {
-          if (products.isEmpty) {
-            emptyPageFound = true;
-            break;
-          }
-          allProducts.addAll(products);
-        }
-
-        if (emptyPageFound) {
-          hasMore = false;
-        } else {
-          page += results.length;
-        }
-      } catch (e) {
-        rethrow;
-      }
-    }
-
-    return allProducts;
   }
 
   @override

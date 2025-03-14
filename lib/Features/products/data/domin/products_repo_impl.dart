@@ -12,9 +12,11 @@ class ProductsRepoImpl implements ProductsRepo {
 
   ProductsRepoImpl(this._source);
   @override
-  Future<Either<Failure, List<ProductsModel>>> getProducts() async {
+  Future<Either<Failure, List<ProductsModel>>> getProducts(
+      {required int page, required int perPagecount}) async {
     try {
-      final response = await _source.getAllProducts();
+      final response =
+          await _source.getProducts(page: page, perPagecount: perPagecount);
       if (response.isEmpty) {
         return Left(ServerFailure('No Data Found'));
       }
