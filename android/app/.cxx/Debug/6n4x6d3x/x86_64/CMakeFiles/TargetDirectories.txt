@@ -1,0 +1,2 @@
+D:/TwoBE/two_be/android/app/.cxx/Debug/6n4x6d3x/x86_64/CMakeFiles/edit_cache.dir
+D:/TwoBE/two_be/android/app/.cxx/Debug/6n4x6d3x/x86_64/CMakeFiles/rebuild_cache.dir

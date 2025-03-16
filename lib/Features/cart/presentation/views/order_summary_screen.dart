@@ -1,20 +1,49 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:two_be/Features/Auth/presentation/cubit/auth_cubit.dart';
+import 'package:two_be/Features/Auth/presentation/cubit/auth_state.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:two_be/Features/cart/presentation/widget/custom_order_sammery_details.dart';
+import 'package:two_be/Features/cart/presentation/widget/custom_choocse_payment_container.dart';
 import 'package:two_be/Features/categories/presentation/widget/custom_header_and_icon.dart';
+import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/functions/show_toast.dart';
 import 'package:two_be/core/utils/app_colors.dart';
-import 'package:two_be/core/utils/app_images.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
-import 'package:two_be/core/widgets/custom_icon_container.dart';
 import 'package:two_be/di.dart';
+import '../../../../core/cache/save_user_info.dart';
 import '../../../../core/utils/app_text_style.dart';
 import '../../../../core/widgets/custom_app_text.dart';
+import '../../../../core/widgets/custom_countries_pupop_dialog.dart';
+import '../../../Auth/Data/Model/user.dart';
+import '../../../Auth/presentation/widget/custom_contry_item_grid_view.dart';
+import '../../../Auth/presentation/widget/custom_text_form_filed.dart';
 
-class OrderSummaryScreen extends StatelessWidget {
+class OrderSummaryScreen extends StatefulWidget {
   const OrderSummaryScreen({super.key});
+
+  @override
+  State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
+}
+
+class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
+  User? _user;
+
+  Future<void> load() async {
+    User? user = await getUserFromSharedPreferences();
+    setState(() {
+      _user = user;
+    });
+    log("$user");
+    log("${user!.username}");
+  }
+
+  @override
+  void initState() {
+    load();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,79 +56,123 @@ class OrderSummaryScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          //  final cubit = context.read<CartCubit>();
+          final cubit = context.read<CartCubit>();
+          final authCubit = context.read<AuthCubit>();
           return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 16,
-                children: [
-                  CustomHeaderAndIcon(title: "تاكيد الطلب"),
-                  Row(
-                    spacing: 16,
-                    children: [
-                      CustomIconContainer(assetName: AppImages.location),
-                      Text("العنوان", style: AppTextStyle.style16),
-                    ],
-                  ),
-                  Row(
-                    spacing: 16,
-                    children: [
-                      CustomIconContainer(assetName: AppImages.clock),
-                      Text("الوقت", style: AppTextStyle.style16),
-                    ],
-                  ),
-                  height(16),
-                  CustomOrderSammeryDetails(),
-                  Text("اختار طريقة الدفع", style: AppTextStyle.style16),
-                  Row(
-                    spacing: 16,
-                    children: [
-                      SvgPicture.asset(AppImages.pay),
-                      Text(
-                        "PayPal",
-                        style: AppTextStyle.style16
-                            .copyWith(color: AppColors.primaryColor),
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 40,
                       ),
-                    ],
-                  ),
-                  Row(
-                    spacing: 16,
-                    children: [
-                      SvgPicture.asset(AppImages.cridte),
-                      Text(
-                        "Credit Card",
-                        style: AppTextStyle.style16
-                            .copyWith(color: AppColors.primaryColor),
+                      child: Column(
+                        spacing: 16,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomHeaderAndIcon(title: "تاكيد الطلب"),
+                          height(32),
+                          BlocBuilder<AuthCubit, AuthState>(
+                            builder: (context, state) {
+                              return CustomTextFormFiled(
+                                hintColor: AppColors.primaryColor,
+                                controller: TextEditingController(),
+                                borderColor: AppColors.primaryColor,
+                                hintText: authCubit.selectedItem == ""
+                                    ? _user?.country ?? ""
+                                    : authCubit.selectedItem,
+                                enabled: false,
+                              );
+                            },
+                          ).onTap(
+                            () {
+                              popupDropDownDialogs(context: context, children: [
+                                SizedBox(
+                                  height: heightSize(context) * 0.7,
+                                  width: double.maxFinite,
+                                  child: GridView.builder(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      return CustomContryItemGridView(
+                                        flag: authCubit.countries[index].flag ??
+                                            "",
+                                        name: authCubit.countries[index].name ??
+                                            "",
+                                      ).onTap(() {
+                                        setState(() {
+                                          authCubit.selectedItem =
+                                              authCubit.countries[index].name!;
+                                        });
+                                        context.pop();
+                                      });
+                                    },
+                                    itemCount: authCubit.countries.length,
+                                  ),
+                                )
+                              ]);
+                            },
+                          ),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: CustomTextFormFiled(
+                                  hintText: "ادخل المحافظه",
+                                  hintColor: AppColors.primaryColor,
+                                  controller: TextEditingController(),
+                                  borderColor: AppColors.primaryColor,
+                                ),
+                              ),
+                              width(16),
+                              Flexible(
+                                child: CustomTextFormFiled(
+                                  hintText: "ادخل الحي",
+                                  hintColor: AppColors.primaryColor,
+                                  controller: TextEditingController(),
+                                  borderColor: AppColors.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "اختار طريقة الدفع",
+                            style: AppTextStyle.style16,
+                          ),
+                          ...List.generate(
+                            cubit.payImages.length,
+                            (index) => GestureDetector(
+                              onTap: () => cubit.changeIndex(index),
+                              child: CustomChoocsePaymentContainer(
+                                image: cubit.payImages[index],
+                                isChoose: cubit.currentIndex == index,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                  Row(
-                    spacing: 16,
-                    children: [
-                      SvgPicture.asset(AppImages.cache),
-                      Text(
-                        "Cash",
-                        style: AppTextStyle.style16
-                            .copyWith(color: AppColors.primaryColor),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  CustomAppButton(
+                ),
+                // Button at the bottom
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: CustomAppButton(
                     text: "تأكيد الطلب",
                     onPressed: () {
-                      // cubit.createOrder(
-                      //   context,
-                      //   customerEmail: _user?.email ?? "",
-                      //   customerName: _user?.username ?? "",
-                      // );
+                      cubit.createOrder(
+                        context,
+                        customerEmail: _user?.email ?? "",
+                        customerName: _user?.username ?? "",
+                      );
                     },
                     radius: 30,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

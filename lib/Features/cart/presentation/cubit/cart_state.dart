@@ -47,3 +47,10 @@ final class PaymentFailureState extends CartState {
 
   const PaymentFailureState(this.paymentStatusResponse);
 }
+
+final class ChangeIndexState extends CartState {
+  final int index;
+  @override
+  List<Object> get props => [index];
+  const ChangeIndexState(this.index);
+}

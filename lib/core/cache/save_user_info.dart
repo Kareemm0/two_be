@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:two_be/Features/Auth/Data/Model/user.dart';
 import 'package:two_be/core/constant/app_shared_pref_keys.dart';
