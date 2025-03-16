@@ -45,19 +45,16 @@ Future<void> clearUserData() async {
   log("Cache is Cleared");
 }
 
-// Future<void> saveCookie(String cookie) async {
-//   final prefs = await SharedPreferences.getInstance();
-//   await prefs.setString(AppSharedPrefrencesKeys.cookies, cookie);
-//   log('Cookie saved: $cookie');
-// }
+Future<void> saveCookie(String cookie) async {
+  final prefs = await SharedPreferences.getInstance();
+  log("Cookie Saved: $cookie");
+  await prefs.setString('cookie', cookie);
+}
 
-// Future<String?> getCookie() async {
-//   final prefs = await SharedPreferences.getInstance();
-//   final cookie = prefs.getString('session_cookie');
-//   log('Retrieved cookie: $cookie');
-//   return cookie;
-// }
-
+Future<String?> getCookie() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('cookie');
+}
 // Future<void> updateCookieFromResponse(Response response) async {
 //   final headers = response.headers.map;
 //   if (headers.containsKey('Cookie')) {
