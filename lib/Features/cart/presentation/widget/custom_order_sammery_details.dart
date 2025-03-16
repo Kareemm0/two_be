@@ -3,10 +3,15 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomOrderSammeryDetails extends StatelessWidget {
-  const CustomOrderSammeryDetails({super.key});
+  final int quantity;
+  final String total;
+  const CustomOrderSammeryDetails(
+      {super.key, required this.quantity, required this.total});
 
   @override
   Widget build(BuildContext context) {
+    double totalValue = double.parse(total);
+    double finalTotal = totalValue * quantity;
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -25,7 +30,7 @@ class CustomOrderSammeryDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("القطع", style: AppTextStyle.style14),
-              Text("3", style: AppTextStyle.style14),
+              Text(quantity.toString(), style: AppTextStyle.style14),
             ],
           ),
           Row(
@@ -56,7 +61,8 @@ class CustomOrderSammeryDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("المجموع", style: AppTextStyle.style14),
-              Text("430\$", style: AppTextStyle.style14),
+              Text("${finalTotal.toStringAsFixed(2)} SAR",
+                  style: AppTextStyle.style14),
             ],
           ),
         ],

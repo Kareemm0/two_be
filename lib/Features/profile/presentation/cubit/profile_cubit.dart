@@ -54,6 +54,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   final List<String> routes = [
     Routes.profileInfoScreen,
+    Routes.settingScreen,
+    Routes.contactUsScreen,
+    Routes.helpScreen,
+    Routes.privacyPolicyScreen,
+    Routes.helpCenterScreen,
+    Routes.aboutUsScreen
   ];
 
 //!=====================Logout========================!//

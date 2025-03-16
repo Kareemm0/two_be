@@ -11,4 +11,10 @@ class Routes {
   static String forgetPasswordScreen = '/forgetPasswordScreen';
   static String notificationScreen = '/notificationScreen';
   static String profileInfoScreen = '/profileInfoScreen';
+  static String settingScreen = '/settingfoScreen';
+  static String contactUsScreen = '/contactUsScreen';
+  static String helpScreen = '/helpScreen';
+  static String privacyPolicyScreen = '/privacyPolicyScreen';
+  static String helpCenterScreen = '/helpCenterScreen';
+  static String aboutUsScreen = '/aboutUsScreen';
 }

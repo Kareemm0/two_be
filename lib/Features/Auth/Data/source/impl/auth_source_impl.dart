@@ -1,17 +1,28 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:two_be/Features/Auth/Data/source/base/auth_source.dart';
+import 'package:two_be/core/cache/save_user_info.dart';
 import 'package:two_be/core/constant/end_points.dart';
 
-import '../../../../../core/cache/save_user_info.dart';
 import '../../../../../core/network/dio/base_dio.dart';
 
 class AuthSourceImpl implements AuthSource {
   final BaseDio dio;
 
   AuthSourceImpl(this.dio);
-  @override
+
+  Future<void> updateCookieFromResponse(Response response) async {
+    final cookies = response.headers['set-cookie'];
+    log("Cookies: $cookies");
+    if (cookies != null && cookies.isNotEmpty) {
+      final cookie = cookies.first;
+      log("Cookies if not null and first value : $cookies");
+      await saveCookie(cookie);
+    }
+  }
+
   @override
   Future<Map<String, dynamic>> register({
     required String username,
@@ -25,7 +36,7 @@ class AuthSourceImpl implements AuthSource {
     try {
       MultipartFile multipartFile = await MultipartFile.fromFile(
         image.path,
-        filename: image.path.split('/').last, // Extract filename
+        filename: image.path.split('/').last,
       );
 
       FormData formData = FormData.fromMap({
@@ -47,7 +58,7 @@ class AuthSourceImpl implements AuthSource {
           },
         ),
       );
-      //await updateCookieFromResponse(response);
+      await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;
@@ -72,7 +83,7 @@ class AuthSourceImpl implements AuthSource {
         "username_or_email": email,
         "password": password,
       });
-      //await updateCookieFromResponse(response);
+      await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;

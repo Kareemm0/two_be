@@ -9,9 +9,15 @@ import 'package:two_be/Features/notifications/presentation/views/notification_sc
 import 'package:two_be/Features/onBoarding/presentation/views/on_boarding_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_details_screen.dart';
 import 'package:two_be/Features/products/presentation/views/products_screen.dart';
+import 'package:two_be/Features/profile/presentation/view/about_us_screen.dart';
+import 'package:two_be/Features/profile/presentation/view/contact_screen.dart';
+import 'package:two_be/Features/profile/presentation/view/privacy_policy_screen.dart';
 import 'package:two_be/Features/profile/presentation/view/profile_info_screen.dart';
 import 'package:two_be/core/routes/routes.dart';
 import '../../Features/Auth/presentation/view/forget_password_screen.dart';
+import '../../Features/profile/presentation/view/help_center_screen.dart';
+import '../../Features/profile/presentation/view/help_screen.dart';
+import '../../Features/profile/presentation/view/setting_screen.dart';
 import '../../Features/splash/presentation/view/splash_screen.dart';
 import '../constant/constant.dart';
 
@@ -72,5 +78,29 @@ final appRouter = GoRouter(navigatorKey: navigatorKey, routes: [
   GoRoute(
     path: Routes.profileInfoScreen,
     builder: (ctx, state) => ProfileInfoScreen(),
+  ),
+  GoRoute(
+    path: Routes.settingScreen,
+    builder: (ctx, state) => SettingsScreen(),
+  ),
+  GoRoute(
+    path: Routes.contactUsScreen,
+    builder: (ctx, state) => ContactUsScreen(),
+  ),
+  GoRoute(
+    path: Routes.helpScreen,
+    builder: (ctx, state) => HelpScreen(),
+  ),
+  GoRoute(
+    path: Routes.privacyPolicyScreen,
+    builder: (ctx, state) => PrivacyPolicyScreen(),
+  ),
+  GoRoute(
+    path: Routes.helpCenterScreen,
+    builder: (ctx, state) => HelpCenterScreen(),
+  ),
+  GoRoute(
+    path: Routes.aboutUsScreen,
+    builder: (ctx, state) => AboutAppScreen(),
   ),
 ]);

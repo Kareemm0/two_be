@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:two_be/Features/products/data/Model/ProductDetailsModel/product_details/product_details.dart';
 import 'package:two_be/Features/products/data/Model/products_model/products_model.dart';
 import 'package:two_be/Features/products/domin/products_repo.dart';
@@ -13,6 +14,8 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<ProductsModel> categoryProducts = [];
   ProductDetails? productDetails;
   ProductDetails? productDetailsById;
+
+  late MFApplePayButton mfApplePayButton;
 
   Future<void> getProducts({
     String? category,
@@ -59,5 +62,18 @@ class ProductsCubit extends Cubit<ProductsState> {
       log("categoryProducts: ${categoryProducts.length}");
       emit(ProductsDetailsSuccessState(productDetails!));
     });
+  }
+
+  applePayPayment() async {
+    MFExecutePaymentRequest executePaymentRequest =
+        MFExecutePaymentRequest(invoiceValue: 10);
+    executePaymentRequest.displayCurrencyIso = MFCurrencyISO.SAUDIARABIA_SAR;
+    await mfApplePayButton
+        .applePayPayment(executePaymentRequest, MFLanguage.ENGLISH,
+            (invoiceId) {
+          log(invoiceId);
+        })
+        .then((value) => log(value.toString()))
+        .catchError((error) => {log(error.message)});
   }
 }

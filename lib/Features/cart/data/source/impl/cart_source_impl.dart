@@ -12,6 +12,31 @@ class CartSourceImpl implements CartSource {
   final BaseDio _dio;
 
   CartSourceImpl(this._dio);
+
+  String extractCookieValue(List<String> cookies) {
+    List<String> cookieValues = [];
+
+    for (String cookie in cookies) {
+      cookie = cookie.trim();
+      List<String> parts = cookie.split(';');
+      if (parts.isNotEmpty) {
+        cookieValues.add(parts[0]);
+      }
+    }
+    return cookieValues.join('; ');
+  }
+
+  Future<void> updateCookieFromResponse(Response response) async {
+    final cookies = response.headers['set-cookie'];
+    if (cookies != null && cookies.isNotEmpty) {
+      final cookieValue = extractCookieValue(cookies);
+      log("Extracted Cookie Value: $cookieValue");
+      await saveCookie(cookieValue);
+    } else {
+      log("No cookies found in the response.");
+    }
+  }
+
   @override
   Future<Map<String, dynamic>> addToCart({
     required String productId,
@@ -22,6 +47,7 @@ class CartSourceImpl implements CartSource {
         "id": productId,
         "quantity": quantity,
       });
+      await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;
@@ -31,12 +57,15 @@ class CartSourceImpl implements CartSource {
   @override
   Future<Map<String, dynamic>> getCart() async {
     try {
+      final cookie = await getCookie();
+      log("cookie in Cart : $cookie");
+      if (cookie == null) {
+        throw Exception('No cookie found');
+      }
       final response = await _dio.get(EndPoints.carts,
           options: Options(headers: {
-            "Cookie":
-                "wp_woocommerce_session_33406d7504722fbe08512fcd59265ff6=t_04ce3e67eafb89e15dc5b77acb33dc%7C%7C1741430361%7C%7C1741426761%7C%7C577e4b4492d2ab9c50d4cc09f19ba36c"
+            "Cookie": cookie,
           }));
-      // await updateCookieFromResponse(response);
       return response.data;
     } catch (e) {
       rethrow;

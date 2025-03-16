@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:two_be/Features/cart/data/model/order/order_model/order_model.dart';
 import 'package:two_be/Features/cart/domin/repo/cart_repo.dart';
 import 'package:two_be/core/utils/app_colors.dart';
+import 'package:two_be/core/utils/app_images.dart';
 import '../../data/model/cart_model/cart_model.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 part 'cart_state.dart';
@@ -14,6 +15,15 @@ class CartCubit extends Cubit<CartState> {
   CartCubit(this._repo) : super(CartInitial());
 
   CartModel? cart;
+
+  List<String> payImages = [
+    AppImages.myFat,
+    AppImages.tabby,
+    AppImages.cach,
+  ];
+
+  int currentIndex = 0;
+  int itemCounter = 1;
 
   void setUpActionBar() {
     MFSDK.setUpActionBar(
@@ -134,6 +144,24 @@ class CartCubit extends Cubit<CartState> {
       });
     } catch (e) {
       emit(CreateOrderFailureState("Error: ${e.toString()}"));
+    }
+  }
+
+  void changeIndex(int index) {
+    currentIndex = index;
+    log(index.toString());
+    emit(ChangeIndexState(index));
+  }
+
+  void incrementItemCounter() {
+    itemCounter++;
+    emit(ChangeItemCounterState(itemCounter));
+  }
+
+  void decrementItemCounter() {
+    if (itemCounter > 1) {
+      itemCounter--;
+      emit(ChangeItemCounterState(itemCounter));
     }
   }
 }

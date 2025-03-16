@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:two_be/Features/Auth/presentation/cubit/auth_cubit.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/di.dart';
@@ -21,6 +22,7 @@ class AppRootProvider extends StatelessWidget {
         BlocProvider(create: (context) => HomeCubit(getIt())),
         BlocProvider(create: (context) => ProductsCubit(getIt())),
         BlocProvider(create: (context) => CartCubit(getIt())),
+        BlocProvider(create: (context) => AuthCubit(getIt())..getCountries()),
       ],
       child: child,
     );

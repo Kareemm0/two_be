@@ -16,7 +16,6 @@ class AppImages {
   static const String logout = '${_path}logout_logo.png';
 
   //! Vectors Images
-
   static const String google = '${_vectos}google.svg';
   static const String home = '${_vectos}home.svg';
   static const String search = '${_vectos}search.svg';
@@ -42,6 +41,9 @@ class AppImages {
   static const String langu = '${_vectos}langu.svg';
   static const String privacy = '${_vectos}privcy.svg';
   static const String setting = '${_vectos}settings.svg';
+  static const String tabby = '${_vectos}tabby.svg';
+  static const String myFat = '${_vectos}myfat.svg';
+  static const String cach = '${_vectos}cach.svg';
 
   // ! animation lottie
   static const String emptyList = '${_lottie}empty_list.json';
