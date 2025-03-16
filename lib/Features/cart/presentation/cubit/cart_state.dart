@@ -54,3 +54,10 @@ final class ChangeIndexState extends CartState {
   List<Object> get props => [index];
   const ChangeIndexState(this.index);
 }
+
+final class ChangeItemCounterState extends CartState {
+  final int counter;
+  @override
+  List<Object> get props => [counter];
+  const ChangeItemCounterState(this.counter);
+}

@@ -28,7 +28,6 @@ class CartSourceImpl implements CartSource {
 
   Future<void> updateCookieFromResponse(Response response) async {
     final cookies = response.headers['set-cookie'];
-    // log("Cookies: $cookies");
     if (cookies != null && cookies.isNotEmpty) {
       final cookieValue = extractCookieValue(cookies);
       log("Extracted Cookie Value: $cookieValue");

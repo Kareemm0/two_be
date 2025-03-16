@@ -23,6 +23,7 @@ class CartCubit extends Cubit<CartState> {
   ];
 
   int currentIndex = 0;
+  int itemCounter = 1;
 
   void setUpActionBar() {
     MFSDK.setUpActionBar(
@@ -150,5 +151,17 @@ class CartCubit extends Cubit<CartState> {
     currentIndex = index;
     log(index.toString());
     emit(ChangeIndexState(index));
+  }
+
+  void incrementItemCounter() {
+    itemCounter++;
+    emit(ChangeItemCounterState(itemCounter));
+  }
+
+  void decrementItemCounter() {
+    if (itemCounter > 1) {
+      itemCounter--;
+      emit(ChangeItemCounterState(itemCounter));
+    }
   }
 }

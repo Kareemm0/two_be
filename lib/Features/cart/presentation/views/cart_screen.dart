@@ -55,7 +55,10 @@ class _CartScreenState extends State<CartScreen> {
                               itemCount: cubit.cart?.items?.length ?? 0,
                             ),
                           ),
-                          CustomOrderSammeryDetails(),
+                          CustomOrderSammeryDetails(
+                            quantity: cubit.itemCounter,
+                            total: cubit.cart?.items?.first.prices?.price ?? "",
+                          ),
                           height(8),
                           CustomAppButton(
                             text: "تأكيد الطلب",

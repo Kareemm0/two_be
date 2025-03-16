@@ -50,7 +50,7 @@ class CustomCartItem extends StatelessWidget {
                   children: [
                     Text(displayText, style: AppTextStyle.style16),
                     Text(
-                      "$price\$",
+                      "$price SAR",
                       style: AppTextStyle.style14
                           .copyWith(color: AppColors.primaryColor),
                     ),
