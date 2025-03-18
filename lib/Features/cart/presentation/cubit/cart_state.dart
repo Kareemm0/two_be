@@ -61,3 +61,17 @@ final class ChangeItemCounterState extends CartState {
   List<Object> get props => [counter];
   const ChangeItemCounterState(this.counter);
 }
+
+final class ChangeSessionStatusState extends CartState {
+  final String status;
+  @override
+  List<Object> get props => [status];
+  const ChangeSessionStatusState(this.status);
+}
+
+final class ChangeSessionState extends CartState {
+  final TabbySession session;
+  @override
+  List<Object> get props => [session];
+  const ChangeSessionState(this.session);
+}

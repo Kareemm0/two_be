@@ -9,6 +9,7 @@ import 'package:two_be/Features/cart/presentation/widget/custom_choocse_payment_
 import 'package:two_be/Features/categories/presentation/widget/custom_header_and_icon.dart';
 import 'package:two_be/core/extension/extension.dart';
 import 'package:two_be/core/functions/show_toast.dart';
+import 'package:two_be/core/routes/routes.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_sizes.dart';
 import 'package:two_be/di.dart';
@@ -53,6 +54,12 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
         listener: (context, state) {
           if (state is CreateOrderFailureState) {
             showToast(message: state.message, backgroundColor: AppColors.redED);
+          } else if (state is CreateOrderSuccessState) {
+            showToast(
+                message: "تم انشاء الطلب", backgroundColor: AppColors.green);
+            context.read<CartCubit>().currentIndex == 2
+                ? context.pushReplacement(Routes.bottomNavigationBar)
+                : null;
           }
         },
         builder: (context, state) {
@@ -81,7 +88,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                                 controller: TextEditingController(),
                                 borderColor: AppColors.primaryColor,
                                 hintText: authCubit.selectedItem == ""
-                                    ? _user?.country ?? ""
+                                    ? "اختار الدوله"
                                     : authCubit.selectedItem,
                                 enabled: false,
                               );
@@ -123,7 +130,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                                 child: CustomTextFormFiled(
                                   hintText: "ادخل المحافظه",
                                   hintColor: AppColors.primaryColor,
-                                  controller: TextEditingController(),
+                                  controller: cubit.cityController,
                                   borderColor: AppColors.primaryColor,
                                 ),
                               ),
@@ -152,6 +159,24 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                               ),
                             ),
                           ),
+                          // TabbyWebView(
+                          //   webUrl: cubit.session!.availableProducts
+                          //       .installments!.webUrl,
+                          //   onResult: (WebViewResult resultCode) {
+                          //     log("==========================================${resultCode.name}");
+
+                          //     switch (resultCode) {
+                          //       case WebViewResult.authorized:
+                          //         break;
+                          //       case WebViewResult.close:
+                          //         break;
+                          //       case WebViewResult.expired:
+                          //         break;
+                          //       case WebViewResult.rejected:
+                          //         break;
+                          //     }
+                          //   },
+                          // ),
                         ],
                       ),
                     ),

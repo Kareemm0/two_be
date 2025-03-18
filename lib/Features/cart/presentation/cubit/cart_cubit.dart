@@ -2,8 +2,11 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tabby_flutter_inapp_sdk/tabby_flutter_inapp_sdk.dart';
 import 'package:two_be/Features/cart/data/model/order/order_model/order_model.dart';
 import 'package:two_be/Features/cart/domin/repo/cart_repo.dart';
+import 'package:two_be/core/functions/show_toast.dart';
+import 'package:two_be/core/service/tabby.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 import 'package:two_be/core/utils/app_images.dart';
 import '../../data/model/cart_model/cart_model.dart';
@@ -24,6 +27,10 @@ class CartCubit extends Cubit<CartState> {
 
   int currentIndex = 0;
   int itemCounter = 1;
+  String status = 'idle';
+  String merchantCode = 'ae';
+  TabbySession? session;
+  TextEditingController cityController = TextEditingController();
 
   void setUpActionBar() {
     MFSDK.setUpActionBar(
@@ -68,17 +75,26 @@ class CartCubit extends Cubit<CartState> {
         emit(CreateOrderFailureState(failure.message));
       },
       (order) async {
-        setUpActionBar();
-        try {
-          await sendPayment(
-            order,
-            customerName: customerName,
-            customerEmail: customerEmail,
-          );
-          await initiateAndExecutePayment(order);
-        } catch (e) {
-          emit(CreateOrderFailureState("Error: ${e.toString()}"));
+        if (currentIndex == 0) {
+          setUpActionBar();
+          try {
+            await sendPayment(
+              order,
+              customerName: customerName,
+              customerEmail: customerEmail,
+            );
+            await initiateAndExecutePayment(order);
+          } catch (e) {
+            emit(CreateOrderFailureState("Error: ${e.toString()}"));
+          }
+        } else if (currentIndex == 1) {
+          try {
+            await createSession(context, address: "");
+          } catch (e) {
+            emit(CreateOrderFailureState("Error: ${e.toString()}"));
+          }
         }
+        emit(CreateOrderSuccessState());
       },
     );
   }
@@ -163,5 +179,85 @@ class CartCubit extends Cubit<CartState> {
       itemCounter--;
       emit(ChangeItemCounterState(itemCounter));
     }
+  }
+
+  void _setStatus(String newStatus) {
+    status = newStatus;
+    emit(ChangeSessionStatusState(status));
+  }
+
+  Future<void> createSession(
+    BuildContext context, {
+    required String address,
+  }) async {
+    try {
+      _setStatus('pending');
+
+      final s = await TabbySDK().createSession(TabbyCheckoutPayload(
+        merchantCode: merchantCode,
+        lang: Lang.ar,
+        payment: createMockPayload(
+          address: address,
+          city: cityController.text,
+          ordertitle: cart?.items?[0].name ?? "",
+          quantity: cart?.items?[0].quantity ?? 1,
+          amount: "10",
+          currency: Currency.sar,
+          email: "kareem@gmail.com",
+          phone: "01008645594",
+          name: "kareem",
+        ),
+      ));
+
+      log('Session id: ${s.sessionId}');
+
+      session = s;
+      emit(ChangeSessionState(session!));
+
+      _setStatus('created');
+      openCheckOutPage(context);
+    } catch (e, s) {
+      log("error: $e, $s");
+      _setStatus('error');
+    }
+  }
+
+  void openCheckOutPage(BuildContext context) {
+    if (session == null) {
+      showToast(message: 'Session not available');
+      return;
+    }
+
+    if (session!.status == SessionStatus.rejected) {
+      final rejectionText = TabbySDK.rejectionTextAr;
+      showToast(message: rejectionText);
+      return;
+    }
+
+    if (session!.availableProducts.installments == null) {
+      showToast(message: 'Session has no products');
+      return;
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TabbyWebView(
+          webUrl: session!.availableProducts.installments!.webUrl,
+          onResult: (WebViewResult resultCode) {
+            log("Tabby WebView Result: ${resultCode.name}");
+
+            switch (resultCode) {
+              case WebViewResult.authorized:
+                break;
+              case WebViewResult.close:
+                break;
+              case WebViewResult.expired:
+                break;
+              case WebViewResult.rejected:
+                break;
+            }
+          },
+        ),
+      ),
+    );
   }
 }
