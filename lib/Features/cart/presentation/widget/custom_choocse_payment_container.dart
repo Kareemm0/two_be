@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:two_be/core/utils/app_colors.dart';
 
 class CustomChoocsePaymentContainer extends StatelessWidget {
@@ -33,10 +32,17 @@ class CustomChoocsePaymentContainer extends StatelessWidget {
       duration: Duration(seconds: 1),
       child: Align(
         alignment: AlignmentDirectional.centerStart,
-        child: SvgPicture.asset(
-          image,
-          width: 50,
-          height: 50,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 4),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Image.asset(
+            image,
+            height: 60,
+            width: 60,
+          ),
         ),
       ),
     );

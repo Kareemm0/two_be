@@ -20,9 +20,9 @@ class CartCubit extends Cubit<CartState> {
   CartModel? cart;
 
   List<String> payImages = [
-    AppImages.myFat,
-    AppImages.tabby,
-    AppImages.cach,
+    AppImages.fatora,
+    AppImages.ta,
+    AppImages.ca,
   ];
 
   int currentIndex = 0;

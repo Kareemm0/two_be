@@ -159,24 +159,6 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                               ),
                             ),
                           ),
-                          // TabbyWebView(
-                          //   webUrl: cubit.session!.availableProducts
-                          //       .installments!.webUrl,
-                          //   onResult: (WebViewResult resultCode) {
-                          //     log("==========================================${resultCode.name}");
-
-                          //     switch (resultCode) {
-                          //       case WebViewResult.authorized:
-                          //         break;
-                          //       case WebViewResult.close:
-                          //         break;
-                          //       case WebViewResult.expired:
-                          //         break;
-                          //       case WebViewResult.rejected:
-                          //         break;
-                          //     }
-                          //   },
-                          // ),
                         ],
                       ),
                     ),
