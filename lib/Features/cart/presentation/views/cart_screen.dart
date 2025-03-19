@@ -39,10 +39,10 @@ class _CartScreenState extends State<CartScreen> {
                           Expanded(
                             child: ListView.separated(
                               itemBuilder: (context, index) => CustomCartItem(
-                                image: cubit.cart?.items?[index].images?[index]
-                                            .src?.isNotEmpty ==
+                                image: cubit.cart?.items?[index].images
+                                            ?.isNotEmpty ==
                                         true
-                                    ? cubit.cart?.items![index].images![index]
+                                    ? cubit.cart?.items![index].images![0]
                                             .src ??
                                         ""
                                     : "",

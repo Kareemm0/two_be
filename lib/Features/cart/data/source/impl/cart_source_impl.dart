@@ -42,12 +42,24 @@ class CartSourceImpl implements CartSource {
     required String productId,
     int quantity = 1,
   }) async {
+    final cookie = await getCookie();
     try {
-      final response = await _dio.post(EndPoints.addToCart, data: {
-        "id": productId,
-        "quantity": quantity,
-      });
-      await updateCookieFromResponse(response);
+      final response = await _dio.post(
+        EndPoints.addToCart,
+        data: {
+          "id": productId,
+          "quantity": quantity,
+        },
+        options: Options(
+          headers: {
+            "Cookie": cookie,
+          },
+        ),
+      );
+      if (cookie == null) {
+        await updateCookieFromResponse(response);
+      }
+
       return response.data;
     } catch (e) {
       rethrow;
