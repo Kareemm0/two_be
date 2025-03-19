@@ -21,7 +21,7 @@ class AppRootProvider extends StatelessWidget {
                 ProductsCubit(getIt())..getProducts(category: "")),
         BlocProvider(create: (context) => HomeCubit(getIt())),
         BlocProvider(create: (context) => ProductsCubit(getIt())),
-        BlocProvider(create: (context) => CartCubit(getIt())),
+        BlocProvider(create: (context) => CartCubit(getIt())..getCart()),
         BlocProvider(create: (context) => AuthCubit(getIt())..getCountries()),
       ],
       child: child,

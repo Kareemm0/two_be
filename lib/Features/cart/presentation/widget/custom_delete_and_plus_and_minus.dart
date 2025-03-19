@@ -23,11 +23,18 @@ class CustomDeleteAndPlusAndMinus extends StatelessWidget {
             Row(
               spacing: 8,
               children: [
-                SvgPicture.asset(
-                  AppImages.minus,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.primaryColor,
-                    BlendMode.srcIn,
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primaryColor,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.remove,
+                      color: AppColors.secondaryColor,
+                    ),
                   ),
                 ).onTap(() {
                   cubit.decrementItemCounter();
@@ -37,11 +44,18 @@ class CustomDeleteAndPlusAndMinus extends StatelessWidget {
                   style: AppTextStyle.style16
                       .copyWith(color: AppColors.primaryColor),
                 ),
-                SvgPicture.asset(
-                  AppImages.plus,
-                  colorFilter: ColorFilter.mode(
-                    AppColors.primaryColor,
-                    BlendMode.srcIn,
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primaryColor,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.add,
+                      color: AppColors.secondaryColor,
+                    ),
                   ),
                 ).onTap(() {
                   cubit.incrementItemCounter();

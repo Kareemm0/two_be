@@ -61,7 +61,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           height(8),
                           CustomAppButton(
-                            text: "تأكيد الطلب",
+                            text: " اذهب الي الدفع",
                             onPressed: () {
                               context.push(Routes.orderSummary);
                             },

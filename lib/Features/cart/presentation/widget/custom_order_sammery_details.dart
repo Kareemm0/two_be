@@ -36,22 +36,8 @@ class CustomOrderSammeryDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("المجموع قبل الخصم", style: AppTextStyle.style14),
-              Text("120\$", style: AppTextStyle.style14),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("الخصم", style: AppTextStyle.style14),
-              Text("4\$", style: AppTextStyle.style14),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("مصاريف الشحن", style: AppTextStyle.style14),
-              Text("2\$", style: AppTextStyle.style14),
+              Text("الاسعار تشمل ضربية القيمه المضافه 15%",
+                  style: AppTextStyle.style14),
             ],
           ),
           Divider(
