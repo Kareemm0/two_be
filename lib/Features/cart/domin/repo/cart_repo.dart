@@ -12,4 +12,6 @@ abstract class CartRepo {
   Future<Either<Failure, CartModel>> getCart();
 
   Future<Either<Failure, OrderModel>> createOrder();
+  Future<Either<Failure, String>> deleteItemFromCart(
+      {required String productKey});
 }

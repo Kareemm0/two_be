@@ -96,4 +96,23 @@ class CartSourceImpl implements CartSource {
       rethrow;
     }
   }
+
+  @override
+  Future<dynamic> deleteItemFromCart({required String productKey}) async {
+    try {
+      final cookie = await getCookie();
+      log("cookie in Cart : $cookie");
+      if (cookie == null) {
+        throw Exception('No cookie found');
+      }
+      final response =
+          await _dio.delete(EndPoints.deleteItemFromCar(productKey),
+              options: Options(headers: {
+                "Cookie": cookie,
+              }));
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

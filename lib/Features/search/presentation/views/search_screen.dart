@@ -69,7 +69,7 @@ class SearchScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.primaryColor,
                                     )),
-                                const SizedBox(height: 8),
+                                height(8),
                                 GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
@@ -95,7 +95,7 @@ class SearchScreen extends StatelessWidget {
                                   itemCount: state.productsList.length,
                                 ),
                               ],
-                              const SizedBox(height: 16),
+                              height(16),
                               if (state is SearchSuccessState &&
                                   state.categoryProducts.isNotEmpty) ...[
                                 Text("الاقسام",
@@ -103,7 +103,7 @@ class SearchScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.primaryColor,
                                     )),
-                                const SizedBox(height: 8),
+                                height(8),
                                 ListView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),

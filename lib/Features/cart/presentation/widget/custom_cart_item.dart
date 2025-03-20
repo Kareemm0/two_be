@@ -8,11 +8,19 @@ class CustomCartItem extends StatelessWidget {
   final String image;
   final String name;
   final String price;
+  final void Function()? onIncrement;
+  final void Function()? onDecrement;
+  final void Function()? deleteTap;
+  final int quantity;
   const CustomCartItem(
       {super.key,
       required this.image,
       required this.name,
-      required this.price});
+      required this.price,
+      this.onIncrement,
+      this.onDecrement,
+      required this.quantity,
+      this.deleteTap});
 
   String getFirstTwoWords(String text) {
     List<String> words = text.split(' ');
@@ -58,7 +66,12 @@ class CustomCartItem extends StatelessWidget {
                 ),
               ],
             ),
-            CustomDeleteAndPlusAndMinus(),
+            CustomDeleteAndPlusAndMinus(
+              onDecrement: onDecrement,
+              onIncrement: onIncrement,
+              quantity: quantity,
+              deleteTap: deleteTap,
+            ),
           ],
         ));
   }

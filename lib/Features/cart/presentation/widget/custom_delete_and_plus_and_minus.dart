@@ -8,18 +8,26 @@ import '../../../../core/utils/app_images.dart';
 import '../../../../core/utils/app_text_style.dart';
 
 class CustomDeleteAndPlusAndMinus extends StatelessWidget {
-  const CustomDeleteAndPlusAndMinus({super.key});
+  final void Function()? onIncrement;
+  final void Function()? onDecrement;
+  final void Function()? deleteTap;
+  final int quantity;
+  const CustomDeleteAndPlusAndMinus(
+      {super.key,
+      this.onIncrement,
+      this.onDecrement,
+      required this.quantity,
+      this.deleteTap});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        final cubit = context.read<CartCubit>();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           spacing: 16,
           children: [
-            SvgPicture.asset(AppImages.delete),
+            SvgPicture.asset(AppImages.delete).onTap(deleteTap),
             Row(
               spacing: 8,
               children: [
@@ -36,11 +44,9 @@ class CustomDeleteAndPlusAndMinus extends StatelessWidget {
                       color: AppColors.secondaryColor,
                     ),
                   ),
-                ).onTap(() {
-                  cubit.decrementItemCounter();
-                }),
+                ).onTap(onDecrement),
                 Text(
-                  cubit.itemCounter.toString(),
+                  quantity.toString(),
                   style: AppTextStyle.style16
                       .copyWith(color: AppColors.primaryColor),
                 ),
@@ -57,9 +63,7 @@ class CustomDeleteAndPlusAndMinus extends StatelessWidget {
                       color: AppColors.secondaryColor,
                     ),
                   ),
-                ).onTap(() {
-                  cubit.incrementItemCounter();
-                }),
+                ).onTap(onIncrement),
               ],
             )
           ],

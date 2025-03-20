@@ -54,4 +54,18 @@ class CartRepoImpl implements CartRepo {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> deleteItemFromCart(
+      {required String productKey}) async {
+    try {
+      final response = await _source.deleteItemFromCart(productKey: productKey);
+      if (response['message'] == null) {
+        return Right("تم حذف المنتج من السلة بنجاح");
+      }
+      return Left(ServerFailure(response));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

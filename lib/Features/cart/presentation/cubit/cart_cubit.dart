@@ -31,71 +31,16 @@ class CartCubit extends Cubit<CartState> {
   String merchantCode = 'ae';
   TabbySession? session;
   TextEditingController cityController = TextEditingController();
+  int totalQuantity = 0;
+  double totalPrice = 0.0;
 
+//!=============== MyFatoorah ===============!//
   void setUpActionBar() {
     MFSDK.setUpActionBar(
       toolBarTitle: 'TwoBe',
       toolBarTitleColor: AppColors.secondaryColor.toString(),
       toolBarBackgroundColor: AppColors.primaryColor.toString(),
       isShowToolBar: true,
-    );
-  }
-
-  Future<void> addToCart({required String productId, int quantity = 1}) async {
-    emit(AddToCartLoadingState());
-    final result = await _repo.addToCart(
-      productId: productId,
-      quantity: quantity,
-    );
-    result.fold(
-      (l) => emit(AddToCartFailureState(l.message)),
-      (r) => emit(AddToCartSuccessState(r)),
-    );
-  }
-
-  Future<void> getCart() async {
-    emit(AddToCartLoadingState());
-    final result = await _repo.getCart();
-    result.fold(
-      (l) => emit(GetCartFailureState(l.message)),
-      (r) {
-        cart = r;
-        emit(GetCartSuccessState(r));
-      },
-    );
-  }
-
-  Future<void> createOrder(BuildContext context,
-      {required String customerName, required String customerEmail}) async {
-    emit(CreateOrderLoadingState());
-
-    final result = await _repo.createOrder();
-    result.fold(
-      (failure) {
-        emit(CreateOrderFailureState(failure.message));
-      },
-      (order) async {
-        if (currentIndex == 0) {
-          setUpActionBar();
-          try {
-            await sendPayment(
-              order,
-              customerName: customerName,
-              customerEmail: customerEmail,
-            );
-            await initiateAndExecutePayment(order);
-          } catch (e) {
-            emit(CreateOrderFailureState("Error: ${e.toString()}"));
-          }
-        } else if (currentIndex == 1) {
-          try {
-            await createSession(context, address: "");
-          } catch (e) {
-            emit(CreateOrderFailureState("Error: ${e.toString()}"));
-          }
-        }
-        emit(CreateOrderSuccessState());
-      },
     );
   }
 
@@ -163,23 +108,105 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
+//! =================== add to cart ===================!//
+  Future<void> addToCart({required String productId, int quantity = 1}) async {
+    emit(AddToCartLoadingState());
+    final result = await _repo.addToCart(
+      productId: productId,
+      quantity: quantity,
+    );
+    result.fold(
+      (l) => emit(AddToCartFailureState(l.message)),
+      (r) => emit(AddToCartSuccessState(r)),
+    );
+  }
+
+  //! =================== get cart ===================!//
+  Future<void> getCart() async {
+    emit(AddToCartLoadingState());
+    final result = await _repo.getCart();
+    result.fold(
+      (l) => emit(GetCartFailureState(l.message)),
+      (r) {
+        cart = r;
+        calculateTotalQuantityAndPrice();
+        emit(GetCartSuccessState(r));
+      },
+    );
+  }
+
+  //! =================== create order ===================//!
+  Future<void> createOrder(BuildContext context,
+      {required String customerName, required String customerEmail}) async {
+    emit(CreateOrderLoadingState());
+
+    final result = await _repo.createOrder();
+    result.fold(
+      (failure) {
+        emit(CreateOrderFailureState(failure.message));
+      },
+      (order) async {
+        if (currentIndex == 0) {
+          setUpActionBar();
+          try {
+            await sendPayment(
+              order,
+              customerName: customerName,
+              customerEmail: customerEmail,
+            );
+            await initiateAndExecutePayment(order);
+          } catch (e) {
+            emit(CreateOrderFailureState("Error: ${e.toString()}"));
+          }
+        } else if (currentIndex == 1) {
+          try {
+            await createSession(context, address: "");
+          } catch (e) {
+            emit(CreateOrderFailureState("Error: ${e.toString()}"));
+          }
+        }
+        emit(CreateOrderSuccessState());
+      },
+    );
+  }
+
+  //! =================== change Ui States ===================//!
   void changeIndex(int index) {
     currentIndex = index;
     log(index.toString());
     emit(ChangeIndexState(index));
   }
 
-  void incrementItemCounter() {
-    itemCounter++;
-    emit(ChangeItemCounterState(itemCounter));
-  }
+  void updateItemQuantity(int index, int newQuantity) {
+    if (cart?.items != null && index < cart!.items!.length) {
+      if (newQuantity < 1) {
+        log("Quantity cannot be less than 1. Setting to 1.");
+        newQuantity = 1;
+      }
 
-  void decrementItemCounter() {
-    if (itemCounter > 1) {
-      itemCounter--;
-      emit(ChangeItemCounterState(itemCounter));
+      log("Updating item at index $index to quantity $newQuantity");
+      cart!.items![index].quantity = newQuantity;
+      calculateTotalQuantityAndPrice();
+      emit(ChangeItemCounterState());
     }
   }
+
+  void calculateTotalQuantityAndPrice() {
+    totalQuantity = 0;
+    totalPrice = 0.0;
+
+    if (cart?.items != null) {
+      for (var item in cart!.items!) {
+        totalQuantity += item.quantity ?? 0;
+        totalPrice += (double.tryParse(item.prices?.price ?? "0") ?? 0) *
+            (item.quantity ?? 0);
+      }
+      log("Total Quantity: $totalQuantity, Total Price: $totalPrice");
+      emit(ChangeQuantityAndPriceCounterState(totalQuantity));
+    }
+  }
+
+  //! =================== Tabby ===================//!
 
   void _setStatus(String newStatus) {
     status = newStatus;
@@ -258,6 +285,17 @@ class CartCubit extends Cubit<CartState> {
           },
         ),
       ),
+    );
+  }
+
+  //! =================== Delete Item From Cart ===================//!
+  Future<void> deleteItemFromCart({required String productKey}) async {
+    final result = await _repo.deleteItemFromCart(productKey: productKey);
+    result.fold(
+      (l) => emit(DeleteItemFromCartFailureState(l.message)),
+      (r) {
+        emit(DeleteItemFromCartSuccessState(r));
+      },
     );
   }
 }
