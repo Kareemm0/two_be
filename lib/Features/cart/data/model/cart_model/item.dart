@@ -8,7 +8,7 @@ class Item extends Equatable {
   final String? key;
   final int? id;
   final String? type;
-  final int? quantity;
+  int? quantity;
   final QuantityLimits? quantityLimits;
   final String? name;
   final String? shortDescription;
@@ -27,7 +27,7 @@ class Item extends Equatable {
   final String? catalogVisibility;
   // final Extensions? extensions;
 
-  const Item({
+  Item({
     this.key,
     this.id,
     this.type,

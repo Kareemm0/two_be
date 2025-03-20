@@ -14,4 +14,6 @@ class EndPoints {
   static String createOrder = "/wp-json/wc/v3/orders";
   static String notification = "/wp-json/custom/v1/notifications";
   static String logout = "/wp-json/custom/v1/logout";
+  static String deleteItemFromCar(String productKey) =>
+      "/wp-json/wc/store/v1/cart/items/$productKey";
 }

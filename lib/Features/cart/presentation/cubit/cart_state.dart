@@ -56,8 +56,36 @@ final class ChangeIndexState extends CartState {
 }
 
 final class ChangeItemCounterState extends CartState {
-  final int counter;
+  const ChangeItemCounterState();
+}
+
+final class ChangeQuantityAndPriceCounterState extends CartState {
+  final int totalQuantity;
   @override
-  List<Object> get props => [counter];
-  const ChangeItemCounterState(this.counter);
+  List<Object> get props => [totalQuantity];
+  const ChangeQuantityAndPriceCounterState(this.totalQuantity);
+}
+
+final class ChangeSessionStatusState extends CartState {
+  final String status;
+  @override
+  List<Object> get props => [status];
+  const ChangeSessionStatusState(this.status);
+}
+
+final class ChangeSessionState extends CartState {
+  final TabbySession session;
+  @override
+  List<Object> get props => [session];
+  const ChangeSessionState(this.session);
+}
+
+final class DeleteItemFromCartFailureState extends CartState {
+  final String message;
+  const DeleteItemFromCartFailureState(this.message);
+}
+
+final class DeleteItemFromCartSuccessState extends CartState {
+  final String message;
+  const DeleteItemFromCartSuccessState(this.message);
 }

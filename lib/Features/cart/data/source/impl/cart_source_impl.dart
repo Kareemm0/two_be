@@ -42,12 +42,24 @@ class CartSourceImpl implements CartSource {
     required String productId,
     int quantity = 1,
   }) async {
+    final cookie = await getCookie();
     try {
-      final response = await _dio.post(EndPoints.addToCart, data: {
-        "id": productId,
-        "quantity": quantity,
-      });
-      await updateCookieFromResponse(response);
+      final response = await _dio.post(
+        EndPoints.addToCart,
+        data: {
+          "id": productId,
+          "quantity": quantity,
+        },
+        options: Options(
+          headers: {
+            "Cookie": cookie,
+          },
+        ),
+      );
+      if (cookie == null) {
+        await updateCookieFromResponse(response);
+      }
+
       return response.data;
     } catch (e) {
       rethrow;
@@ -80,6 +92,25 @@ class CartSourceImpl implements CartSource {
         consumerSecretValue: consumerSecret
       });
       return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<dynamic> deleteItemFromCart({required String productKey}) async {
+    try {
+      final cookie = await getCookie();
+      log("cookie in Cart : $cookie");
+      if (cookie == null) {
+        throw Exception('No cookie found');
+      }
+      final response =
+          await _dio.delete(EndPoints.deleteItemFromCar(productKey),
+              options: Options(headers: {
+                "Cookie": cookie,
+              }));
+      return response;
     } catch (e) {
       rethrow;
     }
