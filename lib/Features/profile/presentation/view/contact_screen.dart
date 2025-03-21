@@ -17,11 +17,11 @@ class ContactUsScreen extends StatelessWidget {
           children: [
             CustomHeaderAndIcon(title: "اتصل بنا"),
             Text(
-              "البريد الإلكتروني: support@ecommerce.com",
+              "البريد الإلكتروني: ino@2b-sa.com",
               style: AppTextStyle.style16,
             ),
             Text(
-              "الهاتف: +966 500 000 000",
+              "الهاتف: 0507992986",
               style: AppTextStyle.style16,
             ),
             Text(

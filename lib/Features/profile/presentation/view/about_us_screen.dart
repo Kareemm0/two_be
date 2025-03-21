@@ -25,7 +25,7 @@ class AboutAppScreen extends StatelessWidget {
               style: AppTextStyle.style16,
             ),
             Text(
-              "الوصف: تطبيق متجر إلكتروني لتسهيل عملية التسوق عبر الإنترنت.",
+              "متجر توبي يضم أكثر من 3500 منتج لاشهر البراندات العالمية",
               style: AppTextStyle.style16,
             ),
           ],
