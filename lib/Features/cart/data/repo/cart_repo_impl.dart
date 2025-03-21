@@ -43,9 +43,26 @@ class CartRepoImpl implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, OrderModel>> createOrder() async {
+  Future<Either<Failure, OrderModel>> createOrder(
+      {String? paymentMehthod,
+      String? customerName,
+      String? customerPhone,
+      String? customerEmail,
+      String? address,
+      String? city,
+      String? state,
+      List<Map<String, dynamic>>? lineItems}) async {
     try {
-      final response = await _source.createOrder();
+      final response = await _source.createOrder(
+        address: address,
+        city: city,
+        customerEmail: customerEmail,
+        customerName: customerName,
+        customerPhone: customerPhone,
+        paymentMehthod: paymentMehthod,
+        state: state,
+        lineItems: lineItems,
+      );
       if (response['id'] == null) {
         return Left(ServerFailure("No Data Found"));
       }
@@ -56,14 +73,17 @@ class CartRepoImpl implements CartRepo {
   }
 
   @override
-  Future<Either<Failure, String>> deleteItemFromCart(
-      {required String productKey}) async {
+  Future<Either<Failure, String>> deleteItemFromCart({
+    required String productKey,
+  }) async {
     try {
       final response = await _source.deleteItemFromCart(productKey: productKey);
-      if (response['message'] == null) {
+      final responseData = response.data;
+
+      if (responseData == null) {
         return Right("تم حذف المنتج من السلة بنجاح");
       }
-      return Left(ServerFailure(response));
+      return Left(ServerFailure(responseData));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

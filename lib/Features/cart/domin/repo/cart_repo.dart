@@ -11,7 +11,16 @@ abstract class CartRepo {
 
   Future<Either<Failure, CartModel>> getCart();
 
-  Future<Either<Failure, OrderModel>> createOrder();
+  Future<Either<Failure, OrderModel>> createOrder({
+    String? paymentMehthod,
+    String? customerName,
+    String? customerPhone,
+    String? customerEmail,
+    String? address,
+    String? city,
+    String? state,
+    List<Map<String, dynamic>>? lineItems,
+  });
   Future<Either<Failure, String>> deleteItemFromCart(
       {required String productKey});
 }

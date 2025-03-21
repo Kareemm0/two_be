@@ -76,7 +76,7 @@ class CustomProductListView extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              "$price\$",
+              "$price SAR",
               style:
                   AppTextStyle.style14.copyWith(color: AppColors.primaryColor),
             ),

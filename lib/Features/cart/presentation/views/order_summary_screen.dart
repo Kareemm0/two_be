@@ -22,7 +22,8 @@ import '../../../Auth/presentation/widget/custom_contry_item_grid_view.dart';
 import '../../../Auth/presentation/widget/custom_text_form_filed.dart';
 
 class OrderSummaryScreen extends StatefulWidget {
-  const OrderSummaryScreen({super.key});
+  final String totalPrice;
+  const OrderSummaryScreen({super.key, required this.totalPrice});
 
   @override
   State<OrderSummaryScreen> createState() => _OrderSummaryScreenState();
@@ -49,7 +50,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CartCubit(getIt()),
+      create: (context) => CartCubit(getIt())..getCart(),
       child: BlocConsumer<CartCubit, CartState>(
         listener: (context, state) {
           if (state is CreateOrderFailureState) {
@@ -128,6 +129,7 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                             children: [
                               Flexible(
                                 child: CustomTextFormFiled(
+                                  textInputColor: AppColors.primaryColor,
                                   hintText: "ادخل المحافظه",
                                   hintColor: AppColors.primaryColor,
                                   controller: cubit.cityController,
@@ -137,9 +139,10 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                               width(16),
                               Flexible(
                                 child: CustomTextFormFiled(
+                                  textInputColor: AppColors.primaryColor,
                                   hintText: "ادخل الحي",
                                   hintColor: AppColors.primaryColor,
-                                  controller: TextEditingController(),
+                                  controller: cubit.stateController,
                                   borderColor: AppColors.primaryColor,
                                 ),
                               ),
@@ -174,7 +177,13 @@ class _OrderSummaryScreenState extends State<OrderSummaryScreen> {
                         context,
                         customerEmail: _user?.email ?? "",
                         customerName: _user?.username ?? "",
+                        address: _user?.country ?? "",
+                        phone: _user?.phone ?? "",
+                        amount: double.parse(widget.totalPrice).toString(),
+                        tabbyAmount: widget.totalPrice,
+                        country: authCubit.selectedItem,
                       );
+                      log("============================${widget.totalPrice}");
                     },
                     radius: 30,
                   ),

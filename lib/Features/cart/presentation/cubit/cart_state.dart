@@ -28,6 +28,8 @@ final class GetCartFailureState extends CartState {
 
 final class GetCartSuccessState extends CartState {
   final CartModel cart;
+  @override
+  List<Object> get props => [cart];
   const GetCartSuccessState(this.cart);
 }
 
