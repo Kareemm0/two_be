@@ -43,6 +43,8 @@ class ProductsScreen extends StatelessWidget {
                               : ListView.separated(
                                   itemBuilder: (context, index) =>
                                       CustomProductItem(
+                                    productId: cubit.categoryProducts[index].id
+                                        .toString(),
                                     imageUrl: cubit.categoryProducts[index]
                                                 .images?.isNotEmpty ==
                                             true

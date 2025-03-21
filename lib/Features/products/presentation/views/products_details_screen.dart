@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:two_be/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_cubit.dart';
 import 'package:two_be/Features/products/presentation/cubit/products_state.dart';
 import 'package:two_be/core/extension/extension.dart';
@@ -66,22 +67,40 @@ class ProductsDetailsScreen extends StatelessWidget {
                                           );
                                         }),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 40),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CustomIconContainer(
-                                            assetName: AppImages.heart),
-                                        CustomIconContainer(
-                                                assetName: AppImages.arrow)
-                                            .onTap(() {
-                                          context.pop();
-                                        }),
-                                      ],
-                                    ),
+                                  BlocBuilder<HomeCubit, HomeState>(
+                                    builder: (context, state) {
+                                      final cubit = context.read<HomeCubit>();
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 40),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CustomIconContainer(
+                                              assetName: AppImages.heart,
+                                              color: cubit.favoriteList
+                                                          .contains(
+                                                              id.toString()) ==
+                                                      true
+                                                  ? AppColors.redED
+                                                  : AppColors.primaryColor,
+                                              onpressed: () {
+                                                cubit.favorite(
+                                                    productId: id.toString());
+                                              },
+                                            ),
+                                            CustomIconContainer(
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                    assetName: AppImages.arrow)
+                                                .onTap(() {
+                                              context.pop();
+                                            }),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
