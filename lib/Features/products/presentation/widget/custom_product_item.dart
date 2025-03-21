@@ -51,7 +51,7 @@ class CustomProductItem extends StatelessWidget {
                       children: [
                         Text(title, style: AppTextStyle.style16),
                         Text(
-                          "$price\$",
+                          "$price SAR",
                           style: AppTextStyle.style14
                               .copyWith(color: AppColors.primaryColor),
                         ),

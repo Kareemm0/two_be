@@ -12,7 +12,7 @@ Payment createMockPayload({
   required int quantity,
 }) {
   return Payment(
-    amount: amount,
+    amount: amount.toString(),
     currency: currency,
     buyer: Buyer(
       email: email,

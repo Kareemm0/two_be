@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabby_flutter_inapp_sdk/tabby_flutter_inapp_sdk.dart';
 import 'package:two_be/Features/cart/data/model/order/order_model/order_model.dart';
 import 'package:two_be/Features/cart/domin/repo/cart_repo.dart';
@@ -31,6 +32,7 @@ class CartCubit extends Cubit<CartState> {
   String merchantCode = 'ae';
   TabbySession? session;
   TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
   int totalQuantity = 0;
   double totalPrice = 0.0;
 
@@ -48,12 +50,12 @@ class CartCubit extends Cubit<CartState> {
     OrderModel order, {
     required String customerName,
     required String customerEmail,
+    required String amount,
   }) async {
     try {
       MFSendPaymentRequest request = MFSendPaymentRequest();
       request.customerName = customerName;
-      request.invoiceValue = 50;
-      // order.totalAmount;
+      request.invoiceValue = double.parse(amount);
       request.notificationOption = MFNotificationOption.EMAIL;
       request.customerEmail = customerEmail;
 
@@ -69,10 +71,11 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  Future<void> initiateAndExecutePayment(OrderModel order) async {
+  Future<void> initiateAndExecutePayment(OrderModel order,
+      {required String amount}) async {
     try {
       MFInitiatePaymentRequest initiateRequest = MFInitiatePaymentRequest(
-        invoiceAmount: 50, // order.totalAmount,
+        invoiceAmount: double.parse(amount),
         currencyIso: MFCurrencyISO.KUWAIT_KWD,
       );
 
@@ -84,9 +87,7 @@ class CartCubit extends Cubit<CartState> {
       int paymentMethodId = 2;
 
       MFExecutePaymentRequest executeRequest =
-          MFExecutePaymentRequest(invoiceValue: 50
-              // order.totalAmount,
-              );
+          MFExecutePaymentRequest(invoiceValue: double.parse(amount));
       executeRequest.paymentMethodId = paymentMethodId;
 
       await MFSDK.executePayment(
@@ -136,11 +137,56 @@ class CartCubit extends Cubit<CartState> {
   }
 
   //! =================== create order ===================//!
-  Future<void> createOrder(BuildContext context,
-      {required String customerName, required String customerEmail}) async {
+
+  Future<void> createOrder(
+    BuildContext context, {
+    required String customerName,
+    required String customerEmail,
+    required String address,
+    required String phone,
+    required String amount,
+    required String tabbyAmount,
+    String? country,
+  }) async {
+    log("Cart items before mapping: ${cart?.items?.map((item) => item.quantity).toList()}");
+
+    // Retrieve saved quantities from SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    for (int i = 0; i < (cart?.items?.length ?? 0); i++) {
+      final savedQuantity = prefs.getInt('item_quantity_$i');
+      if (savedQuantity != null) {
+        cart!.items![i].quantity = savedQuantity;
+      }
+    }
+
+    List<Map<String, dynamic>> lineItems = (cart?.items ?? []).map((product) {
+      log("Processing product_id: ${product.id}, quantity: ${product.quantity}");
+
+      return {
+        "product_id": product.id ?? 0,
+        "quantity": product.quantity ?? 0,
+      };
+    }).toList();
+
+    log("Final Line items being sent: $lineItems");
+
     emit(CreateOrderLoadingState());
 
-    final result = await _repo.createOrder();
+    final result = await _repo.createOrder(
+      address: country,
+      city: cityController.text,
+      customerEmail: customerEmail,
+      customerName: customerName,
+      customerPhone: phone,
+      paymentMehthod: currentIndex == 0
+          ? "MyFatoorah"
+          : currentIndex == 1
+              ? "Tabby"
+              : "Cash on Delivery",
+      state: stateController.text,
+      lineItems: lineItems,
+    );
+
     result.fold(
       (failure) {
         emit(CreateOrderFailureState(failure.message));
@@ -153,14 +199,25 @@ class CartCubit extends Cubit<CartState> {
               order,
               customerName: customerName,
               customerEmail: customerEmail,
+              amount: amount,
             );
-            await initiateAndExecutePayment(order);
+            await initiateAndExecutePayment(
+              order,
+              amount: double.parse(amount).toString(),
+            );
           } catch (e) {
             emit(CreateOrderFailureState("Error: ${e.toString()}"));
           }
         } else if (currentIndex == 1) {
           try {
-            await createSession(context, address: "");
+            await createSession(
+              context,
+              address: address,
+              email: customerEmail,
+              name: customerEmail,
+              phone: phone,
+              amount: tabbyAmount,
+            );
           } catch (e) {
             emit(CreateOrderFailureState("Error: ${e.toString()}"));
           }
@@ -177,15 +234,21 @@ class CartCubit extends Cubit<CartState> {
     emit(ChangeIndexState(index));
   }
 
-  void updateItemQuantity(int index, int newQuantity) {
+  void updateItemQuantity(int index, int newQuantity) async {
     if (cart?.items != null && index < cart!.items!.length) {
       if (newQuantity < 1) {
         log("Quantity cannot be less than 1. Setting to 1.");
         newQuantity = 1;
       }
 
-      log("Updating item at index $index to quantity $newQuantity");
+      log("Updating item at index $index from ${cart!.items![index].quantity} to $newQuantity");
       cart!.items![index].quantity = newQuantity;
+
+      log("Updated cart items: ${cart!.items!.map((item) => item.quantity).toList()}");
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('item_quantity_$index', newQuantity);
+
       calculateTotalQuantityAndPrice();
       emit(ChangeItemCounterState());
     }
@@ -216,9 +279,14 @@ class CartCubit extends Cubit<CartState> {
   Future<void> createSession(
     BuildContext context, {
     required String address,
+    required String email,
+    required String phone,
+    required String name,
+    required String amount,
   }) async {
     try {
       _setStatus('pending');
+      log("Creating Tabby session with amount: $amount");
 
       final s = await TabbySDK().createSession(TabbyCheckoutPayload(
         merchantCode: merchantCode,
@@ -228,11 +296,11 @@ class CartCubit extends Cubit<CartState> {
           city: cityController.text,
           ordertitle: cart?.items?[0].name ?? "",
           quantity: cart?.items?[0].quantity ?? 1,
-          amount: "10",
+          amount: amount, // Use the passed amount
           currency: Currency.sar,
-          email: "kareem@gmail.com",
-          phone: "01008645594",
-          name: "kareem",
+          email: email,
+          phone: phone,
+          name: name,
         ),
       ));
 

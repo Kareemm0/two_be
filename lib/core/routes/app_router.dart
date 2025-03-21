@@ -65,7 +65,12 @@ final appRouter = GoRouter(navigatorKey: navigatorKey, routes: [
   ),
   GoRoute(
     path: Routes.orderSummary,
-    builder: (ctx, state) => OrderSummaryScreen(),
+    builder: (ctx, state) {
+      final totalPrice = state.extra;
+      return OrderSummaryScreen(
+        totalPrice: double.parse(totalPrice.toString()).toInt().toString(),
+      );
+    },
   ),
   GoRoute(
     path: Routes.forgetPasswordScreen,

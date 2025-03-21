@@ -85,12 +85,42 @@ class CartSourceImpl implements CartSource {
   }
 
   @override
-  Future<Map<String, dynamic>> createOrder() async {
+  Future<Map<String, dynamic>> createOrder(
+      {String? paymentMehthod,
+      String? customerName,
+      String? customerPhone,
+      String? customerEmail,
+      String? address,
+      String? city,
+      String? state,
+      List<Map<String, dynamic>>? lineItems}) async {
     try {
-      final response = await _dio.post(EndPoints.createOrder, queryParameters: {
-        consumerKeyValue: consumerKey,
-        consumerSecretValue: consumerSecret
-      });
+      final data = {
+        "payment_method_title": paymentMehthod,
+        "billing": {
+          "first_name": customerName,
+          "phone": customerPhone,
+          "email": customerEmail,
+          "address_1": address,
+          "city": city,
+          "state": state,
+        },
+        "shipping": {
+          "first_name": customerName,
+          "address_1": address,
+          "city": city,
+          "state": state,
+        },
+        "line_items": lineItems
+      };
+      final response = await _dio.post(
+        EndPoints.createOrder,
+        queryParameters: {
+          consumerKeyValue: consumerKey,
+          consumerSecretValue: consumerSecret
+        },
+        data: data,
+      );
       return response.data;
     } catch (e) {
       rethrow;

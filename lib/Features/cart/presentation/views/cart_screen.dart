@@ -117,7 +117,10 @@ class _CartScreenState extends State<CartScreen> {
                         CustomAppButton(
                           text: " اذهب الي الدفع",
                           onPressed: () {
-                            context.push(Routes.orderSummary);
+                            context.push(
+                              Routes.orderSummary,
+                              extra: cubit.totalPrice,
+                            );
                           },
                           radius: 30,
                         ),
