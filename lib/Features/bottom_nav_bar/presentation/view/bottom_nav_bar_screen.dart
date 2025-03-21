@@ -5,6 +5,7 @@ import 'package:two_be/Features/bottom_nav_bar/presentation/cubit/bottom_nav_bar
 import 'package:two_be/Features/bottom_nav_bar/presentation/cubit/bottom_nav_bar_state.dart';
 import 'package:two_be/Features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:two_be/core/utils/app_images.dart';
+import 'package:two_be/di.dart';
 
 import '../../../../core/utils/app_colors.dart';
 
@@ -58,26 +59,29 @@ class BottomNavBarScreen extends StatelessWidget {
                   label: "بحث",
                 ),
                 BottomNavigationBarItem(
-                  icon: BlocBuilder<CartCubit, CartState>(
-                    builder: (context, state) {
-                      final cartCubit = context.read<CartCubit>();
-                      return Badge(
-                        offset: Offset(-10, -10),
-                        backgroundColor: AppColors.redED,
-                        padding: const EdgeInsets.all(4),
-                        textColor: AppColors.secondaryColor,
-                        label: Text("${cartCubit.cart?.items?.length ?? 0}"),
-                        child: SvgPicture.asset(
-                          AppImages.cart,
-                          colorFilter: ColorFilter.mode(
-                            cubit.currentIndex == 2
-                                ? AppColors.primaryColor
-                                : AppColors.grey8,
-                            BlendMode.srcIn,
+                  icon: BlocProvider(
+                    create: (context) => CartCubit(getIt())..getCart(),
+                    child: BlocBuilder<CartCubit, CartState>(
+                      builder: (context, state) {
+                        final cartCubit = context.read<CartCubit>();
+                        return Badge(
+                          offset: Offset(-10, -10),
+                          backgroundColor: AppColors.redED,
+                          padding: const EdgeInsets.all(4),
+                          textColor: AppColors.secondaryColor,
+                          label: Text("${cartCubit.cart?.items?.length ?? 0}"),
+                          child: SvgPicture.asset(
+                            AppImages.cart,
+                            colorFilter: ColorFilter.mode(
+                              cubit.currentIndex == 2
+                                  ? AppColors.primaryColor
+                                  : AppColors.grey8,
+                              BlendMode.srcIn,
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                   label: "العربه",
                 ),
